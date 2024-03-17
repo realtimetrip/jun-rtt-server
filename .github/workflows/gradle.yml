@@ -52,10 +52,10 @@ jobs:
 
     # EC2 인스턴스 접속 및 애플리케이션 실행
     - name: Application Run
-      uses: appleboy/ssh-action@v0.1.6
+      uses: appleboy/ssh-ction@v0.1.6
       with:
         host: ${{ secrets.EC2_HOST }}
-        username: ${{ secrets.EC2_USERNAME }}
+        username: ${{ secrets.EC2_USERNAME }}a
         key: ${{ secrets.EC2_KEY }}
 
         script: |
