@@ -26,5 +26,5 @@ public class User {
 
     private String nickName;
 
-    private String profile;
+    // private String profile;
 }
