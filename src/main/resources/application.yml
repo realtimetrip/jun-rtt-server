@@ -2,8 +2,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${YML_SPRING_DATASOURCE_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    username: ${YML_SPRING_DATASOURCE_USERNAME}
+    password: ${YML_SPRING_DATASOURCE_PASSWORD}
   output:
     ansi:
       enabled: always
