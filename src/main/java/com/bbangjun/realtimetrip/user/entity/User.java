@@ -26,7 +26,7 @@ public class User {
 
     private String password;
 
-    private String nickName;
+    private String nickname;
 
     private String profile;
 

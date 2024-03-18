@@ -1,10 +1,10 @@
 package com.bbangjun.realtimetrip.user.controller;
 
+import com.bbangjun.realtimetrip.user.dto.UserDto;
+import com.bbangjun.realtimetrip.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -12,4 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user")
 public class UserController {
 
+    private final UserService userService;
+    @PostMapping("/signup")
+    public UserDto signUp(@RequestBody UserDto userDto) {
+
+        return userService.signUp(userDto);
+    }
 }
