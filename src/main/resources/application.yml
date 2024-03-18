@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${ YML_SPRING_DATASOURCE_URL }
-    username: ${ YML_SPRING_DATASOURCE_USERNAME }
-    password: ${ YML_SPRING_DATASOURCE_PASSWORD }
+    url: ${url}
+    username: ${username}
+    password: ${password}
   output:
     ansi:
       enabled: always
@@ -17,8 +17,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${ YML_MAIL_USERNAME }
-    password: ${ YML_MAIL_PASSWORD }
+    username: ${username}
+    password: ${password}
     properties:
       mail:
         smtp:
