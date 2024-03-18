@@ -59,11 +59,18 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
 
         script: |
-          sudo docker kill ${{ secrets.PROJECT_NAME }}
-          sudo docker rm -f ${{ secrets.PROJECT_NAME }}
-          sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }}
+          CONTAINER_ID=$(sudo docker ps -q -f name=${{ secrets.PROJECT_NAME }})
+          if [ "$CONTAINER_ID" != "" ]; then
+            sudo docker kill $CONTAINER_ID
+            sudo docker rm -f $CONTAINER_ID
+          fi
+          
+          IMAGE_ID=$(sudo docker images -q ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }})
+          if [ "$IMAGE_ID" != "" ]; then
+            sudo docker rmi -f $IMAGE_ID
+          fi
+          
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }}
-
           sudo docker run -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
           --name ${{ secrets.PROJECT_NAME }} \
           -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
