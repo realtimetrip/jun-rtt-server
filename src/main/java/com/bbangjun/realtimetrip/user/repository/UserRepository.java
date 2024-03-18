@@ -1,5 +1,6 @@
-package com.bbangjun.realtimetrip.user;
+package com.bbangjun.realtimetrip.user.repository;
 
+import com.bbangjun.realtimetrip.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,5 +1,6 @@
-package com.bbangjun.realtimetrip.user;
+package com.bbangjun.realtimetrip.user.entity;
 
+import com.bbangjun.realtimetrip.authnum.entity.AuthNum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
@@ -26,5 +28,8 @@ public class User {
 
     private String nickName;
 
-    // private String profile;
+    private String profile;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private AuthNum authNum;
 }
