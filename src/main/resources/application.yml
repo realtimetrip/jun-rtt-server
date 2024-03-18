@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${yml-spring-datasource-url}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  output:
+    ansi:
+      enabled: always
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    host: ${yml-mail-host}
+    port: ${yml-mail-port}
+    username: ${yml-mail-username}
+    password: ${yml-mail-password}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true

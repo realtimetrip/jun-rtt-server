@@ -59,20 +59,11 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
 
         script: |
-          # 기존에 실행 중이거나 종료된 컨테이너를 확인하고 삭제
-          CONTAINER_ID=$(sudo docker ps -a -q -f name=${{ secrets.PROJECT_NAME }})
-          if [ ! -z "$CONTAINER_ID" ]; then
-            sudo docker rm -f $CONTAINER_ID
-          fi
-
-          # 이미지가 존재한다면 삭제
-          IMAGE_ID=$(sudo docker images -q ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }})
-          if [ ! -z "$IMAGE_ID" ]; then
-            sudo docker rmi -f $IMAGE_ID
-          fi
-
-          # 도커 허브로부터 새 이미지를 가져오고 컨테이너를 실행
+          sudo docker kill ${{ secrets.PROJECT_NAME }}
+          sudo docker rm -f ${{ secrets.PROJECT_NAME }}
+          sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }}
           sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }}
+
           sudo docker run -p ${{ secrets.PORT }}:${{ secrets.PORT }} \
           --name ${{ secrets.PROJECT_NAME }} \
           -e SPRING_DATASOURCE_URL=${{ secrets.DB_URL }} \
