@@ -15,7 +15,7 @@ spring:
       hibernate:
         format_sql: true
   mail:
-    host: ${YML_MAIL_HOST}
+    host: smtp.gmail.com
     port: ${YML_MAIL_PORT}
     username: ${YML_MAIL_USERNAME}
     password: ${YML_MAIL_PASSWORD}
