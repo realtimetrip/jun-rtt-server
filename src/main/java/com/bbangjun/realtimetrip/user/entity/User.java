@@ -30,6 +30,6 @@ public class User {
 
     private String profile;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private AuthNum authNum;
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private AuthNum authNum;
 }

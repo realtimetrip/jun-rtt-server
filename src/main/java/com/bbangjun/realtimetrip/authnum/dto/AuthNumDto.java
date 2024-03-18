@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthNumDto {
@@ -18,7 +17,7 @@ public class AuthNumDto {
 
     private String email;
 
-    private Long authNum;
+    private String authNum;
 
     private LocalDateTime created_at;
 }
