@@ -16,7 +16,7 @@ spring:
         format_sql: true
   mail:
     host: smtp.gmail.com
-    port: ${YML_MAIL_PORT}
+    port: 587
     username: ${YML_MAIL_USERNAME}
     password: ${YML_MAIL_PASSWORD}
     properties:
