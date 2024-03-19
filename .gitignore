@@ -6,8 +6,8 @@ build/
 !**/src/test/**/build/
 
 ### Project Files ###
-#*.properties
-#*.yml
+*.properties
+*.yml
 
 ### STS ###
 .apt_generated
