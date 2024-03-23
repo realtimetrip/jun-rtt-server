@@ -26,4 +26,10 @@ public class UserService {
 
         return UserDto.toUserDto(userRepository.findByEmail(userDto.getEmail()));
     }
+
+    public UserDto authenticateUser(String email, String password) {
+        User user = userRepository.findByEmail(email);
+
+        return UserDto.toUserDto(user);
+    }
 }

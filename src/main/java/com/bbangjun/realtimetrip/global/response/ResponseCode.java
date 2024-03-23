@@ -14,7 +14,10 @@ public enum ResponseCode {
     INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "internal server error"),
 
     // authnum
-    INCORRECT_AUTHCODE(1001, HttpStatus.NOT_FOUND, "인증번호가 틀렸습니다.");
+    INCORRECT_AUTHCODE(1001, HttpStatus.NOT_FOUND, "인증번호가 틀렸습니다."),
+
+    // user
+    INCORRECT_LOGIN_INFO(2001, HttpStatus.NOT_FOUND, "이메일 혹은 비밀번호가 틀렸습니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;
