@@ -10,7 +10,8 @@ import java.util.function.Predicate;
 @Getter
 @RequiredArgsConstructor
 public enum ResponseCode {
-    OK(200, HttpStatus.OK, "ok");
+    OK(200, HttpStatus.OK, "ok"),
+    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "internal server error");
 
     private final Integer code;
     private final HttpStatus httpStatus;
