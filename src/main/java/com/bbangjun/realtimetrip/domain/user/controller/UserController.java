@@ -1,7 +1,7 @@
-package com.bbangjun.realtimetrip.user.controller;
+package com.bbangjun.realtimetrip.domain.user.controller;
 
-import com.bbangjun.realtimetrip.user.dto.UserDto;
-import com.bbangjun.realtimetrip.user.service.UserService;
+import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
+import com.bbangjun.realtimetrip.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    // 회원가입
     @PostMapping("/signup")
     public UserDto signUp(@RequestBody UserDto userDto) {
 

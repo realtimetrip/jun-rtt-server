@@ -1,12 +1,11 @@
-package com.bbangjun.realtimetrip.authnum.controller;
+package com.bbangjun.realtimetrip.domain.authnum.controller;
 
-import com.bbangjun.realtimetrip.authnum.dto.AuthNumDto;
-import com.bbangjun.realtimetrip.authnum.service.AuthNumService;
-import com.bbangjun.realtimetrip.user.dto.UserDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.AuthNumDto;
+import com.bbangjun.realtimetrip.domain.authnum.service.AuthNumService;
+import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;

@@ -1,6 +1,5 @@
-package com.bbangjun.realtimetrip.authnum.entity;
+package com.bbangjun.realtimetrip.domain.authnum.entity;
 
-import com.bbangjun.realtimetrip.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

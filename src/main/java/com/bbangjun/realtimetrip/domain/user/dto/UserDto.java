@@ -1,6 +1,6 @@
-package com.bbangjun.realtimetrip.user.dto;
+package com.bbangjun.realtimetrip.domain.user.dto;
 
-import com.bbangjun.realtimetrip.user.entity.User;
+import com.bbangjun.realtimetrip.domain.user.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

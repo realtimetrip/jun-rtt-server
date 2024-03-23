@@ -1,8 +1,8 @@
-package com.bbangjun.realtimetrip.user.service;
+package com.bbangjun.realtimetrip.domain.user.service;
 
-import com.bbangjun.realtimetrip.user.dto.UserDto;
-import com.bbangjun.realtimetrip.user.entity.User;
-import com.bbangjun.realtimetrip.user.repository.UserRepository;
+import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
+import com.bbangjun.realtimetrip.domain.user.repository.UserRepository;
+import com.bbangjun.realtimetrip.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

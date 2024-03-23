@@ -1,6 +1,6 @@
-package com.bbangjun.realtimetrip.user.repository;
+package com.bbangjun.realtimetrip.domain.user.repository;
 
-import com.bbangjun.realtimetrip.user.entity.User;
+import com.bbangjun.realtimetrip.domain.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

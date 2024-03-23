@@ -1,4 +1,4 @@
-package com.bbangjun.realtimetrip.authnum.dto;
+package com.bbangjun.realtimetrip.domain.authnum.dto;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

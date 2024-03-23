@@ -1,7 +1,7 @@
-package com.bbangjun.realtimetrip.authnum.repository;
+package com.bbangjun.realtimetrip.domain.authnum.repository;
 
-import com.bbangjun.realtimetrip.authnum.dto.AuthNumDto;
-import com.bbangjun.realtimetrip.authnum.entity.AuthNum;
+import com.bbangjun.realtimetrip.domain.authnum.dto.AuthNumDto;
+import com.bbangjun.realtimetrip.domain.authnum.entity.AuthNum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

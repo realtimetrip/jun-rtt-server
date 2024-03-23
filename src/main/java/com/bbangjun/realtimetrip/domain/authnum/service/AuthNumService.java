@@ -1,9 +1,9 @@
-package com.bbangjun.realtimetrip.authnum.service;
+package com.bbangjun.realtimetrip.domain.authnum.service;
 
-import com.bbangjun.realtimetrip.authnum.dto.AuthNumDto;
-import com.bbangjun.realtimetrip.authnum.entity.AuthNum;
-import com.bbangjun.realtimetrip.authnum.repository.AuthNumRepository;
-import com.bbangjun.realtimetrip.user.repository.UserRepository;
+import com.bbangjun.realtimetrip.domain.authnum.dto.AuthNumDto;
+import com.bbangjun.realtimetrip.domain.authnum.entity.AuthNum;
+import com.bbangjun.realtimetrip.domain.authnum.repository.AuthNumRepository;
+import com.bbangjun.realtimetrip.domain.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
