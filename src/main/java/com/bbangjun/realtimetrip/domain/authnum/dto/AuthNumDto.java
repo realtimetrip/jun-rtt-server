@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AuthNumDto {
 
-    private Long userId;
-
     private String email;
 
     private String authNum;

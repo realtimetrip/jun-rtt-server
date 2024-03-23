@@ -11,7 +11,10 @@ import java.util.function.Predicate;
 @RequiredArgsConstructor
 public enum ResponseCode {
     OK(200, HttpStatus.OK, "ok"),
-    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "internal server error");
+    INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "internal server error"),
+
+    // authnum
+    INCORRECT_AUTHCODE(1001, HttpStatus.NOT_FOUND, "인증번호가 틀렸습니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;

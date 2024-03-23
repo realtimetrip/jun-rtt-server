@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface AuthNumRepository extends JpaRepository<AuthNum, Long> {
     void deleteByEmail(String email);
 
-    AuthNumDto findByEmail(String email);
+    AuthNum findByEmail(String email);
 }

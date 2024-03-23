@@ -104,25 +104,30 @@ public class AuthNumService {
         }
     }
 
-    public String verifyCode(String email, String code) {
-        AuthNumDto authNumDto = authNumRepository.findByEmail(email);
+    @Transactional
+    public Boolean checkAuthNum(String email, String code) {
+        AuthNum authNum = authNumRepository.findByEmail(email);
 
-        String authNumStr = String.valueOf(authNumDto.getAuthNum());
+        String authNumStr = String.valueOf(authNum.getAuthNum());
 
         if (code.equals(authNumStr)) {
-            LocalDateTime now = LocalDateTime.now();
-            Duration duration = Duration.between(authNumDto.getCreated_at(), now);
-
-            if (duration.toMinutes() < 5) { // 5분 이하로 인증 코드를 맞춘 경우
-                authNumRepository.deleteByEmail(email);
-                return "Success";
-            }
-            else{
-                authNumRepository.deleteByEmail(email);
-                return "Error: over 5 minute";
-            }
+            authNumRepository.deleteByEmail(email);
+            return true;
+//            LocalDateTime now = LocalDateTime.now();
+//            Duration duration = Duration.between(authNumDto.getCreated_at(), now);
+//
+//            if (duration.toMinutes() < 5) { // 5분 이하로 인증 코드를 맞춘 경우
+//                authNumRepository.deleteByEmail(email);
+//                return "Success";
+//            }
+//            else{
+//                authNumRepository.deleteByEmail(email);
+//                return "Error: over 5 minute";
+//            }
         }
-        // 인증 코드가 틀린 경우
-        return "Error: not correct auth code";
+//        // 인증 코드가 틀린 경우
+//        return "Error: not correct auth code";
+
+        return false;
     }
 }
