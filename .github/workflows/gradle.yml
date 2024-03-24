@@ -73,12 +73,12 @@ jobs:
 
         script: |
           # 환경변수 Export
-          export DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
-          export PROJECT_NAME=${{ secrets.PROJECT_NAME }}
-          export PORT=${{ secrets.PORT }}
-          export DB_URL=${{ secrets.DB_URL }}
-          export DB_USERNAME=${{ secrets.DB_USERNAME }}
-          export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          echo "DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}" >> .env
+          echo "PROJECT_NAME=${{ secrets.PROJECT_NAME }}" >> .env
+          echo "PORT=${{ secrets.PORT }}" >> .env
+          echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+          echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           
           # docker-compose.yml 파일이 있는 디렉토리로 이동
           cd /home/${{ secrets.EC2_USERNAME }}
