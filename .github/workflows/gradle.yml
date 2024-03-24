@@ -34,11 +34,6 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Install Docker Compose
-      run: |
-        sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-        sudo chmod +x /usr/local/bin/docker-compose
-
       # Gradle Build (test 제외)
     - name: Build with Gradle
       run: ./gradlew clean build --exclude-task test
@@ -58,6 +53,16 @@ jobs:
     - name: DockerHub Push
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.PROJECT_NAME }}
 
+    # EC2 인스턴스로 파일 복사 및 애플리케이션 실행
+    - name: Deploy to EC2
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_KEY }}
+        source: "docker-compose.yml"
+        target: "/home/${{ secrets.EC2_USERNAME }}/"
+
     # EC2 인스턴스 접속 및 애플리케이션 실행
     - name: Application and Redis Run
       uses: appleboy/ssh-action@v0.1.6
@@ -74,6 +79,9 @@ jobs:
           export DB_URL=${{ secrets.DB_URL }}
           export DB_USERNAME=${{ secrets.DB_USERNAME }}
           export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          
+          # docker-compose.yml 파일이 있는 디렉토리로 이동
+          cd /home/${{ secrets.EC2_USERNAME }}
           
           # Docker Compose를 이용한 서비스 시작
           sudo docker-compose down
