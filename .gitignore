@@ -7,7 +7,7 @@ build/
 
 ### Project Files ###
 *.properties
-*.yml
+application.yml
 
 ### STS ###
 .apt_generated

@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    image: "${DOCKERHUB_USERNAME}/${PROJECT_NAME}"
+    ports:
+      - "${PORT}:${PORT}"
+    environment:
+      SPRING_DATASOURCE_URL: "${DB_URL}"
+      SPRING_DATASOURCE_USERNAME: "${DB_USERNAME}"
+      SPRING_DATASOURCE_PASSWORD: "${DB_PASSWORD}"
+    depends_on:
+      - redis
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
