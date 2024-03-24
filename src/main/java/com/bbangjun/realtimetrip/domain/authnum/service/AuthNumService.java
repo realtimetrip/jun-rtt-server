@@ -130,4 +130,8 @@ public class AuthNumService {
 
         return false;
     }
+
+    public AuthNumDto findByEmail(String email){
+        return AuthNumDto.toAuthNumDto(authNumRepository.findByEmail(email));
+    }
 }

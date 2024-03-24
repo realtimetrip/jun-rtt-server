@@ -26,13 +26,11 @@ public class AuthNumController {
     @PostMapping("/send")
     public BaseResponse<AuthNumDto> sendAuthNum(@RequestBody UserDto userDto) throws MessagingException, UnsupportedEncodingException {
 
-        AuthNumDto authNumDto = new AuthNumDto();
         try{
             // 5분 이내에 다시 인증 번호 전송을 했다면 앞서 요청한 인증 번호 삭제
             authNumService.deleteExistCode(userDto.getEmail());
-            authNumDto.setAuthNum(authNumService.sendEmail(userDto.getEmail()));
-
-            return new BaseResponse<>(authNumDto);
+            authNumService.sendEmail(userDto.getEmail());
+            return new BaseResponse<>(authNumService.findByEmail(userDto.getEmail()));
         }catch (Exception e) {
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
