@@ -21,10 +21,4 @@ public class AuthNum {
     private String authNum;
 
     private LocalDateTime created_at;
-
-//    // name 필드: 현재 테이블에서 FK를 user_id로 설정
-//    // referencedColumnName 필드: 참조하는 User 테이블의 PK 이름
-//    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "user_id", referencedColumnName = "userId")
-//    private User user;
 }

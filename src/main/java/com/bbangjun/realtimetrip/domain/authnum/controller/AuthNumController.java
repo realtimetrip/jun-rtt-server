@@ -35,4 +35,18 @@ public class AuthNumController {
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
+
+    // redis 방식 인증 번호 전송
+    @PostMapping("/send-redis")
+    public BaseResponse<AuthNumDto> sendAuthNumRedis(@RequestBody UserDto userDto) throws MessagingException, UnsupportedEncodingException {
+
+        try{
+            // 5분 이내에 다시 인증 번호 전송을 했다면 앞서 요청한 인증 번호 삭제
+            authNumService.deleteExistCodeRedis(userDto.getEmail());
+            authNumService.sendEmailRedis(userDto.getEmail());
+            return new BaseResponse<>(authNumService.findByEmailRedis(userDto.getEmail()));
+        }catch (Exception e) {
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
 }

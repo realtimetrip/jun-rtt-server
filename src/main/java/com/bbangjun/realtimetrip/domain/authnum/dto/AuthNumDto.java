@@ -31,4 +31,9 @@ public class AuthNumDto {
 
         return authNumDto;
     }
+
+    public AuthNumDto(String email, String authNum) {
+        this.email = email;
+        this.authNum = authNum;
+    }
 }
