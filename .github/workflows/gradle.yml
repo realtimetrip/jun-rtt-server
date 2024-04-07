@@ -80,9 +80,6 @@ jobs:
           echo "DB_USERNAME=${{ secrets.DB_USERNAME }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           
-          # docker-compose.yml 파일이 있는 디렉토리로 이동
-          cd /home/${{ secrets.EC2_USERNAME }}
-          
           # Docker Compose를 이용한 서비스 시작
           sudo docker-compose down
           sudo docker-compose up -d
