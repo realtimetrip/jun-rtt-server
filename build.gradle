@@ -33,7 +33,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-mail' // 이메일 인증 코드
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // 이메일 인증 폼을 위한 타임리프
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis' // redis
-	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket' // websocket
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-reactor-netty', version: '2.4.6'
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 }
 
 tasks.named('test') {
