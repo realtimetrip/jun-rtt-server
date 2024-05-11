@@ -2,12 +2,9 @@ package com.bbangjun.realtimetrip.domain.chat.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class Chatdto {
+public class ChatMessage {
     public enum MessageType{
         ENTER, TALK, LEAVE;
     }
