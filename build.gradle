@@ -36,6 +36,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket' // websocket
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-reactor-netty', version: '2.4.6'
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+	implementation 'org.springframework.boot:spring-boot-devtools' // 파일 수정 시 재시작하지 않고 자동 컴파일 될 수 있도록 하기위한 라이브러리
+
 }
 
 tasks.named('test') {
