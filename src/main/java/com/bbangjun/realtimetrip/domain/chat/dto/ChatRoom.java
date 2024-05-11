@@ -1,21 +1,20 @@
 package com.bbangjun.realtimetrip.domain.chat.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 public class ChatRoom {
     private String roomId;
     private String roomName;
-    private long userCount;
-    private HashMap<String, String> userList = new HashMap<String, String>();
 
-    public ChatRoom create(String roomName){
+    public static ChatRoom create(String roomName){
         ChatRoom chatRoom = new ChatRoom();
+        // 방 번호는 고유한 random UUID 생성
         chatRoom.roomId = UUID.randomUUID().toString();
         chatRoom.roomName = roomName;
 
