@@ -13,7 +13,6 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Slf4j
 @Configuration
 @EnableWebSocketMessageBroker // 웹소켓 활성화
-@RequiredArgsConstructor
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
