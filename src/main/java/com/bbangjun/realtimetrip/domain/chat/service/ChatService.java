@@ -1,7 +1,5 @@
 package com.bbangjun.realtimetrip.domain.chat.service;
 
-import com.bbangjun.realtimetrip.config.RedisPublisher;
-import com.bbangjun.realtimetrip.config.RedisSubscriber;
 import com.bbangjun.realtimetrip.domain.chat.dto.ChatMessageDto;
 import com.bbangjun.realtimetrip.domain.chat.entity.ChatMessage;
 import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
@@ -9,16 +7,10 @@ import com.bbangjun.realtimetrip.domain.chat.repository.ChatMessageRepository;
 import com.bbangjun.realtimetrip.domain.chat.repository.ChatRoomRepository;
 import com.bbangjun.realtimetrip.domain.user.entity.User;
 import com.bbangjun.realtimetrip.domain.user.repository.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +25,8 @@ public class ChatService {
     private final UserRepository userRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
-    private final RedisPublisher redisPublisher;
-    private final RedisSubscriber redisSubscriber;
+    private final RedisPublisherService redisPublisherService;
+    private final RedisSubscriberService redisSubscriberService;
     private final RedisMessageListenerContainer redisMessageListener;
 
     @Transactional
@@ -65,7 +57,7 @@ public class ChatService {
             chatMessageDto.setUserId(user.getUserId());
             chatMessageDto.setSendTime(LocalDateTime.now());
 
-            redisPublisher.publish(topic, chatMessageDto);
+            redisPublisherService.publish(topic, chatMessageDto);
         }
     }
 
@@ -73,13 +65,13 @@ public class ChatService {
         if (ChatMessageDto.MessageType.ENTER.equals(chatMessageDto.getMessageType())) {
 
             ChannelTopic topic = new ChannelTopic(chatMessageDto.getRoomId());
-            redisMessageListener.addMessageListener(redisSubscriber, topic);
+            redisMessageListener.addMessageListener(redisSubscriberService, topic);
             chatMessageDto.setNickName(userRepository.findById(chatMessageDto.getUserId()).get().getNickname());
             chatMessageDto.setSendTime(LocalDateTime.now());
             chatMessageDto.setMessage(chatMessageDto.getNickName() + "님이 입장하셨습니다.");
 
             // Websocket에 발행된 메시지를 redis로 발행한다(publish)
-            redisPublisher.publish(topic, chatMessageDto);
+            redisPublisherService.publish(topic, chatMessageDto);
         }
     }
 }

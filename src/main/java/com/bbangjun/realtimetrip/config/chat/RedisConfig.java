@@ -1,4 +1,4 @@
-    package com.bbangjun.realtimetrip.config;
+    package com.bbangjun.realtimetrip.config.chat;
 
     import org.springframework.context.annotation.Bean;
     import org.springframework.context.annotation.Configuration;

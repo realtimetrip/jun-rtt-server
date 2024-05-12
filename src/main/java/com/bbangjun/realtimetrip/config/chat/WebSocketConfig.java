@@ -1,4 +1,4 @@
-package com.bbangjun.realtimetrip.config;
+package com.bbangjun.realtimetrip.config.chat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.bbangjun.realtimetrip.config;
+package com.bbangjun.realtimetrip.config.chat;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

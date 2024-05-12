@@ -1,7 +1,6 @@
-package com.bbangjun.realtimetrip.config;
+package com.bbangjun.realtimetrip.domain.chat.service;
 
 import com.bbangjun.realtimetrip.domain.chat.dto.ChatMessageDto;
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RedisSubscriber implements MessageListener {
+public class RedisSubscriberService implements MessageListener {
 
     private final ObjectMapper objectMapper;
     private final RedisTemplate redisTemplate;
