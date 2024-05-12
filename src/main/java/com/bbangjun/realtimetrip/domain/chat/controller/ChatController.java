@@ -23,23 +23,13 @@ public class ChatController {
 
     private final ChatService chatService;
 
+    @MessageMapping("/chat/send")
+    public void sendMessage(ChatMessageDto chatMessageDto){
+        chatService.sendMessage(chatMessageDto);
+    }
 
-    // @MessageMapping을 통해 메시지 핸들링 처리
-    // 클라이언트에서 메시지 발행 시 /pub/chat/message 경로로 발행해야 하며, message에 RoomId를 지정해주어야 함.
-
-//    @MessageMapping("/enterUser")
-//    public void enterUser(@Payload ChatMessageDto chatMessageDto, SimpMessageHeaderAccessor headerAccessor) throws JsonProcessingException {
-//
-//        log.info("chatMessageDto = {}", chatMessageDto);
-//        chatService.enterUser(chatMessageDto, headerAccessor);
-//    }
-
-
-
-    /**
-     * websocket "/pub/chat/message"로 들어오는 메시징을 처리한다.
-     */
-    @MessageMapping("/chat/message")
+    // websocket "/pub/chat/enter"로 들어오는 메시징을 처리
+    @MessageMapping("/chat/enter")
     public void enterUser(ChatMessageDto chatMessageDto) {
         chatService.enterUser(chatMessageDto);
     }

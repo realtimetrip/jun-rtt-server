@@ -14,6 +14,8 @@ public class RedisPublisher {
     private final RedisTemplate<String, Object> redisTemplate;
 
     public void publish(ChannelTopic topic, ChatMessageDto chatMessageDto){
+        // convertAndSend는 수신한 메시지를 지정된 topic으로 broadcasting하는 기능을 수행함.
+        // 핸들링한 메시지를 지정된 topic으로 메시지 전달
         redisTemplate.convertAndSend(topic.getTopic(), chatMessageDto);
     }
 }
