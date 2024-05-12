@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.listener.ChannelTopic;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +26,7 @@ public class ChatRoom {
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatMessage> messages = new HashSet<>();
 
-     @Builder
+    @Builder
     public ChatRoom(String roomName){
 
         // 방 번호는 고유한 random UUID 생성
