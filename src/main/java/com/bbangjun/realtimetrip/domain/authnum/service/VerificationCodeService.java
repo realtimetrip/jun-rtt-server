@@ -1,6 +1,7 @@
 package com.bbangjun.realtimetrip.domain.authnum.service;
 
-import com.bbangjun.realtimetrip.domain.authnum.dto.VerificationCodeResponseDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.SendVerificationCodeResponseDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.VerifyEmailResponseDto;
 import com.bbangjun.realtimetrip.domain.authnum.entity.VerificationCode;
 import com.bbangjun.realtimetrip.domain.authnum.repository.VerificationCodeRepository;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
@@ -9,6 +10,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,22 +27,33 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
 public class VerificationCodeService {
+    private String newVerificationCode;
 
     // 실제 메일 전송을 위한 send() 메서드 사용
     private final JavaMailSender emailSender;
-    private String newVerificationCode;
-
     // 타임리프를 이용한 context 설정
     private final SpringTemplateEngine templateEngine;
     // DB 저장 방식
     private final VerificationCodeRepository verificationCodeRepository;
     // redis 방식
     private final StringRedisTemplate stringRedisTemplate;
+    // Spring Data Redis에서 문자열 값을 처리하기 위해 사용하는 객체. 이 객체를 통해 Redis에 값을 저장하고 가져올 수 있음.
+    private final ValueOperations<String, String> valueOperations;
 
-    private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService scheduler;
+
+    @Autowired
+    public VerificationCodeService(JavaMailSender emailSender, SpringTemplateEngine templateEngine,
+                                   VerificationCodeRepository verificationCodeRepository, StringRedisTemplate stringRedisTemplate) {
+        this.emailSender = emailSender;
+        this.templateEngine = templateEngine;
+        this.verificationCodeRepository = verificationCodeRepository;
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.valueOperations = stringRedisTemplate.opsForValue();
+        this.scheduler = Executors.newScheduledThreadPool(1);
+    }
 
     // [db 저장 방식 인증 번호] step1: controller에서 호출
     public void sendEmailDB(String toEmail) throws MessagingException {
@@ -113,9 +126,10 @@ public class VerificationCodeService {
     // [redis 저장 방식 인증 번호] step1: 타임리프를 이용한 context 설정
     public void sendEmailRedis(String toEmail) throws MessagingException {
 
+        createCodeRedis(toEmail);
         // 메일 전송에 필요한 정보 설정
         MimeMessage emailForm = createEmailForm(toEmail);
-        createCodeRedis(toEmail);
+
         // 실제 메일 전송
         emailSender.send(emailForm);
     }
@@ -127,17 +141,17 @@ public class VerificationCodeService {
         Random random = new Random();
         newVerificationCode = String.valueOf(random.nextInt(9000) + 1000); // 1000 ~ 9999 범위의 인증 번호 생성
 
-        ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
-        valueOperations.set(email, newVerificationCode, 5, TimeUnit.MINUTES); // Redis에 이메일을 키로, 인증 번호를 값으로 저장, 5분 후 만료
+        // Redis에 이메일을 키로, 인증 번호를 값으로 저장, 5분 후 만료
+        valueOperations.set(email, newVerificationCode, 5, TimeUnit.MINUTES);
     }
 
-    // [redis 저장 방식 인증 번호] step4: 이메일로 인증 번호 조회
-    public VerificationCodeResponseDto findByEmailRedis(String email) {
+    // [redis 저장 방식 인증 번호] step4: 이메일을 key로 인증번호를 찾아서 반환
+    public SendVerificationCodeResponseDto findByEmailRedis(String email) {
         String verificationCode = stringRedisTemplate.opsForValue().get(email);
-        if (verificationCode == null) {
+        if (verificationCode == null)
             return null;
-        }
-        return new VerificationCodeResponseDto(email, verificationCode);
+
+        return new SendVerificationCodeResponseDto(email, verificationCode);
     }
 
     // [redis 저장 방식 인증 번호] 인증 번호 삭제 (Redis에서 해당 이메일 키 삭제)
@@ -147,7 +161,7 @@ public class VerificationCodeService {
 
     // [DB 이메일 인증 번호 검증]
     @Transactional
-    public BaseResponse<Object> checkVerificationCode(String email, String requestVerificationCode) {
+    public BaseResponse<Object> checkVerificationCodeDB(String email, String requestVerificationCode) {
         VerificationCode verificationCode = verificationCodeRepository.findByEmail(email);
 
         if (requestVerificationCode.equals(verificationCode.getVerificationCode())) {
@@ -158,7 +172,25 @@ public class VerificationCodeService {
             return new BaseResponse<>(ResponseCode.INCORRECT_VERIFICATIONCODE);
     }
 
-    public VerificationCodeResponseDto findByEmailDB(String email){
-        return VerificationCodeResponseDto.toVerificationCodeDto(verificationCodeRepository.findByEmail(email));
+    // [redis 이메일 인증 번호 검증]
+    public BaseResponse<Object> checkVerificationCodeRedis(String email, String requestVerificationCode) {
+        
+        String storedVerificationCode = valueOperations.get(email);
+        if (storedVerificationCode == null) {
+            return new BaseResponse<>(ResponseCode.NOT_FOUND, "값이 존재하지 않습니다.");
+        }
+
+        if (storedVerificationCode.equals(requestVerificationCode)) {
+            stringRedisTemplate.delete(email);
+            return new BaseResponse<>();
+        } else {
+            return new BaseResponse<>(ResponseCode.INCORRECT_VERIFICATIONCODE);
+        }
     }
+
+    public SendVerificationCodeResponseDto findByEmailDB(String email){
+        return SendVerificationCodeResponseDto.toVerificationCodeDto(verificationCodeRepository.findByEmail(email));
+    }
+
+
 }

@@ -10,11 +10,12 @@ import java.util.function.Predicate;
 @Getter
 @RequiredArgsConstructor
 public enum ResponseCode {
+    NOT_FOUND(400, HttpStatus.NOT_FOUND, "Not Found"),
     OK(200, HttpStatus.OK, "ok"),
     INTERNAL_SERVER_ERROR(500, HttpStatus.INTERNAL_SERVER_ERROR, "internal server error"),
 
     // verificationCode
-    INCORRECT_VERIFICATIONCODE(1001, HttpStatus.NOT_FOUND, "인증번호가 틀렸습니다."),
+    INCORRECT_VERIFICATIONCODE(1001, HttpStatus.NOT_FOUND, "인증번호가 틀렸거나 존재하지 않습니다."),
 
     // user
     INCORRECT_LOGIN_INFO(2001, HttpStatus.NOT_FOUND, "이메일 혹은 비밀번호가 틀렸습니다.");

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VerifyEmailDto {
+public class VerifyEmailRequestDto {
     private String email;
-    private String authNum;
+    private String verificationCode;
 }

@@ -28,6 +28,7 @@ public class BaseResponse<T> {
         this.data = null;
     }
 
+    // 실패
     public BaseResponse(ResponseCode errorCode) {
         this.success = false;
         this.code = errorCode.getCode();

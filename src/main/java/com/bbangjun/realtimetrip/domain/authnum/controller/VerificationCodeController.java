@@ -1,7 +1,9 @@
 package com.bbangjun.realtimetrip.domain.authnum.controller;
 
-import com.bbangjun.realtimetrip.domain.authnum.dto.VerificationCodeRequestDto;
-import com.bbangjun.realtimetrip.domain.authnum.dto.VerificationCodeResponseDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.SendVerificationCodeRequestDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.SendVerificationCodeResponseDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.VerifyEmailRequestDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.VerifyEmailResponseDto;
 import com.bbangjun.realtimetrip.domain.authnum.service.VerificationCodeService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
@@ -22,13 +24,13 @@ public class VerificationCodeController {
 
     @Operation(summary = "DB 저장 방식 인증 번호 전송", description = "DB에 인증 번호를 저장하고, 이메일로 전송합니다.")
     @PostMapping("/send-db-verification-code")
-    public BaseResponse<VerificationCodeResponseDto> sendAuthNum(@RequestBody VerificationCodeRequestDto verificationCodeRequestDto) {
+    public BaseResponse<SendVerificationCodeResponseDto> sendAuthNum(@RequestBody SendVerificationCodeRequestDto sendVerificationCodeRequestDto) {
 
         try{
             // 5분 이내에 다시 인증 번호 전송을 했다면 앞서 요청한 인증 번호 삭제
-            verificationCodeService.deleteExistCode(verificationCodeRequestDto.getEmail());
-            verificationCodeService.sendEmailDB(verificationCodeRequestDto.getEmail());
-            return new BaseResponse<>(verificationCodeService.findByEmailDB(verificationCodeRequestDto.getEmail()));
+            verificationCodeService.deleteExistCode(sendVerificationCodeRequestDto.getEmail());
+            verificationCodeService.sendEmailDB(sendVerificationCodeRequestDto.getEmail());
+            return new BaseResponse<>(verificationCodeService.findByEmailDB(sendVerificationCodeRequestDto.getEmail()));
         }catch (Exception e) {
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -36,9 +38,9 @@ public class VerificationCodeController {
 
     @Operation(summary = "DB 이메일 인증 번호 검증", description = "사용자로부터 입력 받은 인증 번호를 DB에 저장된 인증 번호로 검증합니다.")
     @PostMapping("verify-db-email")
-    public BaseResponse<Object> verifyDbEmail(@RequestBody VerificationCodeResponseDto verificationCodeResponseDto) {
+    public BaseResponse<Object> verifyDbEmail(@RequestBody SendVerificationCodeResponseDto sendVerificationCodeResponseDto) {
         try{
-            return new BaseResponse<>(verificationCodeService.checkVerificationCode(verificationCodeResponseDto.getEmail(), verificationCodeResponseDto.getVerificationCode()));
+            return verificationCodeService.checkVerificationCodeDB(sendVerificationCodeResponseDto.getEmail(), sendVerificationCodeResponseDto.getVerificationCode());
         }catch (Exception e){
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -46,13 +48,13 @@ public class VerificationCodeController {
 
     @Operation(summary = "Redis 저장 방식 인증 번호 전송", description = "Redis에 인증 번호를 저장하고, 이메일로 전송합니다.")
     @PostMapping("/send-verification-code")
-    public BaseResponse<VerificationCodeResponseDto> sendVerificationCode(@RequestBody VerificationCodeRequestDto verificationCodeRequestDto) {
+    public BaseResponse<SendVerificationCodeResponseDto> sendVerificationCode(@RequestBody SendVerificationCodeRequestDto sendVerificationCodeRequestDto) {
 
         try{
             // 5분 이내에 다시 인증 번호 전송을 했다면 앞서 요청한 인증 번호 삭제
-            verificationCodeService.deleteExistCodeRedis(verificationCodeRequestDto.getEmail());
-            verificationCodeService.sendEmailRedis(verificationCodeRequestDto.getEmail());
-            return new BaseResponse<>(verificationCodeService.findByEmailRedis(verificationCodeRequestDto.getEmail()));
+            verificationCodeService.deleteExistCodeRedis(sendVerificationCodeRequestDto.getEmail());
+            verificationCodeService.sendEmailRedis(sendVerificationCodeRequestDto.getEmail());
+            return new BaseResponse<>(verificationCodeService.findByEmailRedis(sendVerificationCodeRequestDto.getEmail()));
         }catch (Exception e) {
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
@@ -60,7 +62,11 @@ public class VerificationCodeController {
 
     @Operation(summary = "Redis 이메일 인증 번호 검증", description = "사용자로부터 입력 받은 인증 번호를 Redis에 저장된 인증 번호로 검증합니다.")
     @PostMapping("verify-email")
-    public void verifyEmail(){
-
+    public BaseResponse<Object> verifyEmail(@RequestBody VerifyEmailRequestDto verifyEmailRequestDto){
+        try{
+            return verificationCodeService.checkVerificationCodeRedis(verifyEmailRequestDto.getEmail(), verifyEmailRequestDto.getVerificationCode());
+        }catch (Exception e){
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 }
