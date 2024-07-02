@@ -1,5 +1,6 @@
 package com.bbangjun.realtimetrip.domain.user.controller;
 
+import com.bbangjun.realtimetrip.domain.user.dto.SignUpRequestDto;
 import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
 import com.bbangjun.realtimetrip.domain.user.service.UserService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
@@ -10,7 +11,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -22,21 +25,18 @@ public class UserController {
     private final UserService userService;
 
     // API: 회원가입
-//    @PostMapping("/signup")
-//    public BaseResponse<UserDto> signUp(@RequestBody UserDto userDto) {
-//
-////        try{
-////            return new BaseResponse<>(userService.signUp(userDto));
-////        }catch (ResponseException e) {
-////            return new BaseResponse<>(e.getErrorCode(), e.getMessage());
-////        } catch (Exception e) {
-////            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
-////        }
-//    }
+    @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public BaseResponse<Object> signUp(@ModelAttribute SignUpRequestDto signUpRequestDto) {
+        try {
+            return new BaseResponse<>(userService.signUp(signUpRequestDto));
+        } catch (Exception e) {
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
 
     // API: 로그인
     @PostMapping("/login")
-    public BaseResponse<?> login(@RequestBody UserDto userDto, HttpServletResponse response) {
+    public BaseResponse<Object> login(@RequestBody UserDto userDto, HttpServletResponse response) {
 
         try{
             UserDto user = userService.authenticateUser(userDto.getEmail(), userDto.getPassword());

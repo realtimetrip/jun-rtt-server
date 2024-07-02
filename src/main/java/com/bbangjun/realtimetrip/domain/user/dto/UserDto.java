@@ -22,6 +22,7 @@ public class UserDto {
         userDto.setPassword(user.getPassword());
         userDto.setUserId(user.getUserId());
         userDto.setNickname(user.getNickname());
+        userDto.setProfile(user.getProfile());
 
         return userDto;
     }
