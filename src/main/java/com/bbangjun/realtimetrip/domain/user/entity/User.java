@@ -1,5 +1,6 @@
 package com.bbangjun.realtimetrip.domain.user.entity;
 
+import com.bbangjun.realtimetrip.domain.verificationcode.entity.VerificationCode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,10 +26,11 @@ public class User {
 
     private String password;
 
+    @Column(name = "nickname")
     private String nickname;
 
     private String profile;
 
-//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private AuthNum authNum;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private VerificationCode verificationCode;
 }

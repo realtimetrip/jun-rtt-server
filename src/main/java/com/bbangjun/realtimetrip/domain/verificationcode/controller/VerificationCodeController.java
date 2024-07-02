@@ -1,10 +1,9 @@
-package com.bbangjun.realtimetrip.domain.authnum.controller;
+package com.bbangjun.realtimetrip.domain.verificationcode.controller;
 
-import com.bbangjun.realtimetrip.domain.authnum.dto.SendVerificationCodeRequestDto;
-import com.bbangjun.realtimetrip.domain.authnum.dto.SendVerificationCodeResponseDto;
-import com.bbangjun.realtimetrip.domain.authnum.dto.VerifyEmailRequestDto;
-import com.bbangjun.realtimetrip.domain.authnum.dto.VerifyEmailResponseDto;
-import com.bbangjun.realtimetrip.domain.authnum.service.VerificationCodeService;
+import com.bbangjun.realtimetrip.domain.verificationcode.dto.SendVerificationCodeRequestDto;
+import com.bbangjun.realtimetrip.domain.verificationcode.dto.SendVerificationCodeResponseDto;
+import com.bbangjun.realtimetrip.domain.verificationcode.dto.VerifyEmailRequestDto;
+import com.bbangjun.realtimetrip.domain.verificationcode.service.VerificationCodeService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +23,7 @@ public class VerificationCodeController {
 
     @Operation(summary = "DB 저장 방식 인증 번호 전송", description = "DB에 인증 번호를 저장하고, 이메일로 전송합니다.")
     @PostMapping("/send-db-verification-code")
-    public BaseResponse<SendVerificationCodeResponseDto> sendAuthNum(@RequestBody SendVerificationCodeRequestDto sendVerificationCodeRequestDto) {
+    public BaseResponse<SendVerificationCodeResponseDto> sendDBVerificaitionCode(@RequestBody SendVerificationCodeRequestDto sendVerificationCodeRequestDto) {
 
         try{
             // 5분 이내에 다시 인증 번호 전송을 했다면 앞서 요청한 인증 번호 삭제

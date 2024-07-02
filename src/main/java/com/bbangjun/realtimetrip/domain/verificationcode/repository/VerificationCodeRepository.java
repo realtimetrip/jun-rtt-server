@@ -1,6 +1,6 @@
-package com.bbangjun.realtimetrip.domain.authnum.repository;
+package com.bbangjun.realtimetrip.domain.verificationcode.repository;
 
-import com.bbangjun.realtimetrip.domain.authnum.entity.VerificationCode;
+import com.bbangjun.realtimetrip.domain.verificationcode.entity.VerificationCode;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

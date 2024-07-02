@@ -14,18 +14,18 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public UserDto signUp(UserDto userDto) {
-
-        User user = User.builder()
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .nickname(userDto.getNickname())
-                .build();
-
-        userRepository.save(user);
-
-        return UserDto.toUserDto(userRepository.findByEmail(userDto.getEmail()));
-    }
+//    public UserDto signUp(UserDto userDto) {
+//
+//        User user = User.builder()
+//                .email(userDto.getEmail())
+//                .password(userDto.getPassword())
+//                .nickname(userDto.getNickname())
+//                .build();
+//
+//        userRepository.save(user);
+//
+//        return UserDto.toUserDto(userRepository.findByEmail(userDto.getEmail()));
+//    }
 
     public UserDto authenticateUser(String email, String password) {
         User user = userRepository.findByEmail(email);

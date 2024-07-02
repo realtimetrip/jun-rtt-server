@@ -1,4 +1,4 @@
-package com.bbangjun.realtimetrip.domain.authnum.dto;
+package com.bbangjun.realtimetrip.domain.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VerifyEmailResponseDto {
+public class SignUpRequestDto {
     private String email;
-    private String verificationCode;
+    private String password;
+    private String nickName;
 }

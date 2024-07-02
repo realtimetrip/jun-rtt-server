@@ -5,6 +5,7 @@ import com.bbangjun.realtimetrip.domain.user.service.UserService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
 import com.bbangjun.realtimetrip.global.response.ResponseException;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,22 +16,23 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
+@Tag(name = "UserController", description = "유저 관련 API")
 public class UserController {
 
     private final UserService userService;
 
     // API: 회원가입
-    @PostMapping("/signup")
-    public BaseResponse<UserDto> signUp(@RequestBody UserDto userDto) {
-
-        try{
-            return new BaseResponse<>(userService.signUp(userDto));
-        }catch (ResponseException e) {
-            return new BaseResponse<>(e.getErrorCode(), e.getMessage());
-        } catch (Exception e) {
-            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-    }
+//    @PostMapping("/signup")
+//    public BaseResponse<UserDto> signUp(@RequestBody UserDto userDto) {
+//
+////        try{
+////            return new BaseResponse<>(userService.signUp(userDto));
+////        }catch (ResponseException e) {
+////            return new BaseResponse<>(e.getErrorCode(), e.getMessage());
+////        } catch (Exception e) {
+////            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+////        }
+//    }
 
     // API: 로그인
     @PostMapping("/login")

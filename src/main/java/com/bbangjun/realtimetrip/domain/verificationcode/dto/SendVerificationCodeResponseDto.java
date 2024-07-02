@@ -1,6 +1,6 @@
-package com.bbangjun.realtimetrip.domain.authnum.dto;
+package com.bbangjun.realtimetrip.domain.verificationcode.dto;
 
-import com.bbangjun.realtimetrip.domain.authnum.entity.VerificationCode;
+import com.bbangjun.realtimetrip.domain.verificationcode.entity.VerificationCode;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +28,8 @@ public class SendVerificationCodeResponseDto {
         return sendVerificationCodeResponseDto;
     }
 
-    public SendVerificationCodeResponseDto(String email, String authNum) {
+    public SendVerificationCodeResponseDto(String email, String verificationCode) {
         this.email = email;
-        this.verificationCode = authNum;
+        this.verificationCode = verificationCode;
     }
 }

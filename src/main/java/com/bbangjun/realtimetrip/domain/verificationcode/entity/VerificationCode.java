@@ -1,5 +1,6 @@
-package com.bbangjun.realtimetrip.domain.authnum.entity;
+package com.bbangjun.realtimetrip.domain.verificationcode.entity;
 
+import com.bbangjun.realtimetrip.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,8 @@ public class VerificationCode {
     private String verificationCode;
 
     private LocalDateTime created_at;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

@@ -1,14 +1,12 @@
-package com.bbangjun.realtimetrip.domain.authnum.service;
+package com.bbangjun.realtimetrip.domain.verificationcode.service;
 
-import com.bbangjun.realtimetrip.domain.authnum.dto.SendVerificationCodeResponseDto;
-import com.bbangjun.realtimetrip.domain.authnum.dto.VerifyEmailResponseDto;
-import com.bbangjun.realtimetrip.domain.authnum.entity.VerificationCode;
-import com.bbangjun.realtimetrip.domain.authnum.repository.VerificationCodeRepository;
+import com.bbangjun.realtimetrip.domain.verificationcode.dto.SendVerificationCodeResponseDto;
+import com.bbangjun.realtimetrip.domain.verificationcode.entity.VerificationCode;
+import com.bbangjun.realtimetrip.domain.verificationcode.repository.VerificationCodeRepository;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -103,9 +101,9 @@ public class VerificationCodeService {
     }
 
     // [db 저장 방식 인증 번호] step4: 타임리프를 이용한 context 설정
-    public String setContext(String authNum) {
+    public String setContext(String verificationCode) {
         Context context = new Context();
-        context.setVariable("code", authNum); // 생성한 인증 번호가 th:text="${code}와 매핑
+        context.setVariable("code", verificationCode); // 생성한 인증 번호가 th:text="${code}와 매핑
         return templateEngine.process("mail", context); // mail.html
     }
 
