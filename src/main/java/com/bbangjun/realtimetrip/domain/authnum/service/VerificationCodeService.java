@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.domain.authnum.service;
 
-import com.bbangjun.realtimetrip.domain.authnum.dto.VerificationCodeRequestDto;
+import com.bbangjun.realtimetrip.domain.authnum.dto.VerificationCodeResponseDto;
 import com.bbangjun.realtimetrip.domain.authnum.entity.VerificationCode;
 import com.bbangjun.realtimetrip.domain.authnum.repository.VerificationCodeRepository;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
@@ -132,12 +132,12 @@ public class VerificationCodeService {
     }
 
     // [redis 저장 방식 인증 번호] step4: 이메일로 인증 번호 조회
-    public VerificationCodeRequestDto findByEmailRedis(String email) {
+    public VerificationCodeResponseDto findByEmailRedis(String email) {
         String verificationCode = stringRedisTemplate.opsForValue().get(email);
         if (verificationCode == null) {
             return null;
         }
-        return new VerificationCodeRequestDto(email, verificationCode);
+        return new VerificationCodeResponseDto(email, verificationCode);
     }
 
     // [redis 저장 방식 인증 번호] 인증 번호 삭제 (Redis에서 해당 이메일 키 삭제)
@@ -158,7 +158,7 @@ public class VerificationCodeService {
             return new BaseResponse<>(ResponseCode.INCORRECT_VERIFICATIONCODE);
     }
 
-    public VerificationCodeRequestDto findByEmailDB(String email){
-        return VerificationCodeRequestDto.toVerificationCodeDto(verificationCodeRepository.findByEmail(email));
+    public VerificationCodeResponseDto findByEmailDB(String email){
+        return VerificationCodeResponseDto.toVerificationCodeDto(verificationCodeRepository.findByEmail(email));
     }
 }
