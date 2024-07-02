@@ -37,6 +37,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-websocket' // websocket
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-reactor-netty', version: '2.4.6'
 	implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9' // swagger
+	implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.9' // swagger
+	implementation 'org.springdoc:springdoc-openapi-security:1.6.9' // swagger
 }
 
 tasks.named('test') {

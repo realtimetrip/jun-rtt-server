@@ -5,6 +5,8 @@ import com.bbangjun.realtimetrip.domain.authnum.service.VerificationCodeService;
 import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +18,12 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
+@Tag(name = "VerificationCodeController", description = "인증 코드 관련 API")
 public class VerificationCodeController {
 
     private final VerificationCodeService verificationCodeService;
 
-    // API: DB 저장 방식 인증 번호 전송
+    @Operation(summary = "DB 저장 방식 인증 번호 전송", description = "DB에 인증 번호를 저장하고, 이메일로 전송합니다.")
     @PostMapping("/send-db-verification-code")
     public BaseResponse<VerificationCodeRequestDto> sendAuthNum(@RequestBody UserDto userDto) throws MessagingException, UnsupportedEncodingException {
 
@@ -34,7 +37,7 @@ public class VerificationCodeController {
         }
     }
 
-    // API: DB 이메일 인증 번호 검증
+    @Operation(summary = "DB 이메일 인증 번호 검증", description = "사용자로부터 입력 받은 인증 번호를 DB에 저장된 인증 번호로 검증합니다.")
     @PostMapping("verify-db-email")
     public BaseResponse<Object> verifyDbEmail(@RequestBody VerificationCodeRequestDto verificationCodeRequestDto){
         try{
@@ -44,7 +47,7 @@ public class VerificationCodeController {
         }
     }
 
-    // API: redis 저장 방식 인증 번호 전송
+    @Operation(summary = "Redis 저장 방식 인증 번호 전송", description = "Redis에 인증 번호를 저장하고, 이메일로 전송합니다.")
     @PostMapping("/send-verification-code")
     public BaseResponse<VerificationCodeRequestDto> sendVerificationCode(@RequestBody UserDto userDto) throws MessagingException, UnsupportedEncodingException {
 
@@ -58,7 +61,7 @@ public class VerificationCodeController {
         }
     }
 
-    // API: redis 이메일 인증 번호 검증
+    @Operation(summary = "Redis 이메일 인증 번호 검증", description = "사용자로부터 입력 받은 인증 번호를 Redis에 저장된 인증 번호로 검증합니다.")
     @PostMapping("verify-email")
     public void verifyEmail(){
 
