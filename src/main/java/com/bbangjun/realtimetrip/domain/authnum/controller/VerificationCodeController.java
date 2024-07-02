@@ -1,0 +1,66 @@
+package com.bbangjun.realtimetrip.domain.authnum.controller;
+
+import com.bbangjun.realtimetrip.domain.authnum.dto.VerificationCodeRequestDto;
+import com.bbangjun.realtimetrip.domain.authnum.service.VerificationCodeService;
+import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
+import com.bbangjun.realtimetrip.global.response.BaseResponse;
+import com.bbangjun.realtimetrip.global.response.ResponseCode;
+import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
+
+@Slf4j
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/auth")
+public class VerificationCodeController {
+
+    private final VerificationCodeService verificationCodeService;
+
+    // API: DB 저장 방식 인증 번호 전송
+    @PostMapping("/send-db-verification-code")
+    public BaseResponse<VerificationCodeRequestDto> sendAuthNum(@RequestBody UserDto userDto) throws MessagingException, UnsupportedEncodingException {
+
+        try{
+            // 5분 이내에 다시 인증 번호 전송을 했다면 앞서 요청한 인증 번호 삭제
+            verificationCodeService.deleteExistCode(userDto.getEmail());
+            verificationCodeService.sendEmailDB(userDto.getEmail());
+            return new BaseResponse<>(verificationCodeService.findByEmailDB(userDto.getEmail()));
+        }catch (Exception e) {
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    // API: DB 이메일 인증 번호 검증
+    @PostMapping("verify-db-email")
+    public BaseResponse<Object> verifyDbEmail(@RequestBody VerificationCodeRequestDto verificationCodeRequestDto){
+        try{
+            return new BaseResponse<>(verificationCodeService.checkVerificationCode(verificationCodeRequestDto.getEmail(), verificationCodeRequestDto.getVerificationCode()));
+        }catch (Exception e){
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    // API: redis 저장 방식 인증 번호 전송
+    @PostMapping("/send-verification-code")
+    public BaseResponse<VerificationCodeRequestDto> sendVerificationCode(@RequestBody UserDto userDto) throws MessagingException, UnsupportedEncodingException {
+
+        try{
+            // 5분 이내에 다시 인증 번호 전송을 했다면 앞서 요청한 인증 번호 삭제
+            verificationCodeService.deleteExistCodeRedis(userDto.getEmail());
+            verificationCodeService.sendEmailRedis(userDto.getEmail());
+            return new BaseResponse<>(verificationCodeService.findByEmailRedis(userDto.getEmail()));
+        }catch (Exception e) {
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    // API: redis 이메일 인증 번호 검증
+    @PostMapping("verify-email")
+    public void verifyEmail(){
+
+    }
+}

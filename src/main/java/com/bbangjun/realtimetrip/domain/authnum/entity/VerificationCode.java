@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthNum {
+public class VerificationCode {
 
     @Id
     private String email;
 
-    private String authNum;
+    private String verificationCode;
 
     private LocalDateTime created_at;
 }

@@ -1,6 +1,5 @@
 package com.bbangjun.realtimetrip.domain.user.controller;
 
-import com.bbangjun.realtimetrip.domain.authnum.service.AuthNumService;
 import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
 import com.bbangjun.realtimetrip.domain.user.service.UserService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
@@ -19,17 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
-    private final AuthNumService authNumService;
 
-    // 회원가입
+    // API: 회원가입
     @PostMapping("/signup")
-    public BaseResponse<UserDto> signUp(@RequestBody UserDto userDto, @RequestParam(name = "authNum") String authNum) {
+    public BaseResponse<UserDto> signUp(@RequestBody UserDto userDto) {
 
         try{
-            if(authNumService.checkAuthNum(userDto.getEmail(), authNum))
-                return new BaseResponse<>(userService.signUp(userDto));
-            else
-                return new BaseResponse<>(ResponseCode.INCORRECT_AUTHCODE);
+            return new BaseResponse<>(userService.signUp(userDto));
         }catch (ResponseException e) {
             return new BaseResponse<>(e.getErrorCode(), e.getMessage());
         } catch (Exception e) {
@@ -37,7 +32,7 @@ public class UserController {
         }
     }
 
-    // 로그인
+    // API: 로그인
     @PostMapping("/login")
     public BaseResponse<?> login(@RequestBody UserDto userDto, HttpServletResponse response) {
 

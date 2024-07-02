@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -14,14 +15,23 @@ public class ChatController {
 
     private final ChatService chatService;
 
-    @MessageMapping("/chat/send")
+    // API: 채팅 보내기
+    // websocket "pub/send-message"로 들어오는 메시징을 처리
+    @MessageMapping("/send-message")
     public void sendMessage(ChatMessageDto chatMessageDto){
         chatService.sendMessage(chatMessageDto);
     }
 
-    // websocket "/pub/chat/enter"로 들어오는 메시징을 처리
-    @MessageMapping("/chat/enter")
+    // API: 채팅방 입장
+    // websocket "/pub/enter-user"로 들어오는 메시징을 처리
+    @MessageMapping("/enter-user")
     public void enterUser(ChatMessageDto chatMessageDto) {
         chatService.enterUser(chatMessageDto);
+    }
+
+    // API: 채팅방 목록 조회
+    @GetMapping("/chatroom")
+    public void getChatRoom(){
+
     }
 }
