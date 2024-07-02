@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -44,24 +45,29 @@ public class VerificationCodeService {
     // [db 저장 방식 인증 번호] step1: controller에서 호출
     public void sendEmailDB(String toEmail) throws MessagingException {
 
-        // 메일 전송에 필요한 정보 설정
+        // 인증 코드 생성
+        createCode(toEmail);
+        // 메일 양식 작성
         MimeMessage emailForm = createEmailForm(toEmail);
         // 실제 메일 전송
         emailSender.send(emailForm);
     }
 
-    // [db 저장 방식 인증 번호] step2: 메일 양식 작성
+    // [db 저장 방식 인증 번호 & redis 저장 방식 인증 번호] step2: 메일 양식 작성
     public MimeMessage createEmailForm(String email) throws MessagingException {
-
-        createCode(email); // 인증 코드 생성
-        String setFrom = "awsbbangjun@gmail.com"; // email-config에 설정한 자신의 이메일 주소(보내는 사람)
-        String title = "[RealTimeTrip] 인증 코드는 " + newVerificationCode + "입니다"; //제목
+        
+        // email-config에 설정한 자신의 이메일 주소(보내는 사람)
+        String setFrom = "awsbbangjun@gmail.com";
+        // 제목
+        String title = "[RealTimeTrip] 인증 코드는 " + newVerificationCode + "입니다";
 
         MimeMessage message = emailSender.createMimeMessage();
-        message.addRecipients(MimeMessage.RecipientType.TO, email); // 보낼 이메일 설정
-        message.setSubject(title); // 제목 설정
-        message.setFrom(setFrom); // 송신자 이메일
-        message.setText(setContext(newVerificationCode), "utf-8", "html");
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        helper.setTo(email); // 수신자 이메일
+        helper.setSubject(title); // 제목 설정
+        helper.setFrom(setFrom); // 송신자 이메일
+        helper.setText(setContext(newVerificationCode), true); // HTML 내용 설정
 
         return message;
     }
@@ -108,26 +114,13 @@ public class VerificationCodeService {
     public void sendEmailRedis(String toEmail) throws MessagingException {
 
         // 메일 전송에 필요한 정보 설정
-        MimeMessage emailForm = createEmailFormRedis(toEmail);
+        MimeMessage emailForm = createEmailForm(toEmail);
         createCodeRedis(toEmail);
         // 실제 메일 전송
         emailSender.send(emailForm);
     }
 
-    // [redis 저장 방식 인증 번호] step2: 메일 양식 작성
-    public MimeMessage createEmailFormRedis(String email) throws MessagingException {
-
-        String setFrom = "awsbbangjun@gmail.com"; // email-config에 설정한 자신의 이메일 주소(보내는 사람)
-        String title = "[RealTimeTrip] 인증 코드는 " + newVerificationCode + "입니다"; //제목
-
-        MimeMessage message = emailSender.createMimeMessage();
-        message.addRecipients(MimeMessage.RecipientType.TO, email); // 보낼 이메일 설정
-        message.setSubject(title); // 제목 설정
-        message.setFrom(setFrom); // 송신자 이메일
-        message.setText(setContext(newVerificationCode), "utf-8", "html");
-
-        return message;
-    }
+    // step2는 db 저장 방식 인증 번호와 동일한 메서드
 
     // [redis 저장 방식 인증 번호] step3: 인증 번호 생성 및 Redis 저장
     private void createCodeRedis(String email) {
