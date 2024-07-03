@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -43,16 +45,25 @@ public class UserController {
 
             if (userInfoResponseDto != null) {
                 Cookie emailCookie = new Cookie("email", userInfoResponseDto.getEmail());
-                Cookie nickNameCookie = new Cookie("nickName", userInfoResponseDto.getNickname());
+
+                // 쿠키가 ASCII 문자만을 허용하므로, 닉네임을 인코딩하여 쿠키에 저장
+                String encodedNickName = URLEncoder.encode(userInfoResponseDto.getNickname(), "UTF-8");
+                Cookie nickNameCookie = new Cookie("nickName", encodedNickName);
+
+                Cookie profileCookie = new Cookie("profile", userInfoResponseDto.getProfile());
+
 
                 emailCookie.setMaxAge(7 * 24 * 60 * 60);
                 nickNameCookie.setMaxAge(7 * 24 * 60 * 60);
+                profileCookie.setMaxAge(7 * 24 * 60 * 60);
 
                 emailCookie.setPath("/");
                 nickNameCookie.setPath("/");
+                profileCookie.setPath("/");
 
                 response.addCookie(emailCookie);
                 response.addCookie(nickNameCookie);
+                response.addCookie(profileCookie);
 
                 return new BaseResponse<>(userInfoResponseDto);
             } else {
