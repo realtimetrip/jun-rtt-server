@@ -3,7 +3,7 @@ package com.bbangjun.realtimetrip.domain.user.service;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.bbangjun.realtimetrip.domain.user.dto.SignUpRequestDto;
-import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
+import com.bbangjun.realtimetrip.domain.user.dto.UserInfoResponseDto;
 import com.bbangjun.realtimetrip.domain.user.repository.UserRepository;
 import com.bbangjun.realtimetrip.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class UserService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-    public UserDto signUp(SignUpRequestDto signUpRequestDto) throws IOException {
+    public UserInfoResponseDto signUp(SignUpRequestDto signUpRequestDto) throws IOException {
         String profileUrl = uploadProfileImageToS3(signUpRequestDto.getProfile());
 
         User user = User.builder()
@@ -37,7 +37,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        return UserDto.toUserDto(userRepository.findByEmail(signUpRequestDto.getEmail()));
+        return UserInfoResponseDto.toUserInfoResponseDto(userRepository.findByEmail(signUpRequestDto.getEmail()));
     }
 
     private String uploadProfileImageToS3(MultipartFile profile) throws IOException {
@@ -46,10 +46,15 @@ public class UserService {
         return amazonS3.getUrl(bucketName, fileName).toString();
     }
 
-    public UserDto authenticateUser(String email, String password) {
+    public UserInfoResponseDto login(String email, String password) {
         User user = userRepository.findByEmail(email);
 
-        return UserDto.toUserDto(user);
-    }
+        if (user != null)
+            return null;
 
+        if(user.getPassword().equals(password))
+            return UserInfoResponseDto.toUserInfoResponseDto(user);
+
+        return null;
+    }
 }

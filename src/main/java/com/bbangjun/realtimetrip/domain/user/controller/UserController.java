@@ -1,7 +1,8 @@
 package com.bbangjun.realtimetrip.domain.user.controller;
 
+import com.bbangjun.realtimetrip.domain.user.dto.LoginRequestDto;
 import com.bbangjun.realtimetrip.domain.user.dto.SignUpRequestDto;
-import com.bbangjun.realtimetrip.domain.user.dto.UserDto;
+import com.bbangjun.realtimetrip.domain.user.dto.UserInfoResponseDto;
 import com.bbangjun.realtimetrip.domain.user.service.UserService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
@@ -13,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -36,14 +36,14 @@ public class UserController {
 
     // API: 로그인
     @PostMapping("/login")
-    public BaseResponse<Object> login(@RequestBody UserDto userDto, HttpServletResponse response) {
+    public BaseResponse<Object> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
 
         try{
-            UserDto user = userService.authenticateUser(userDto.getEmail(), userDto.getPassword());
+            UserInfoResponseDto userInfoResponseDto = userService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
 
-            if (user != null) {
-                Cookie emailCookie = new Cookie("email", user.getEmail());
-                Cookie nickNameCookie = new Cookie("nickName", user.getNickname());
+            if (userInfoResponseDto != null) {
+                Cookie emailCookie = new Cookie("email", userInfoResponseDto.getEmail());
+                Cookie nickNameCookie = new Cookie("nickName", userInfoResponseDto.getNickname());
 
                 emailCookie.setMaxAge(7 * 24 * 60 * 60);
                 nickNameCookie.setMaxAge(7 * 24 * 60 * 60);
@@ -54,7 +54,7 @@ public class UserController {
                 response.addCookie(emailCookie);
                 response.addCookie(nickNameCookie);
 
-                return new BaseResponse<>(user);
+                return new BaseResponse<>(userInfoResponseDto);
             } else {
                 return new BaseResponse<>(ResponseCode.INCORRECT_LOGIN_INFO);
             }
