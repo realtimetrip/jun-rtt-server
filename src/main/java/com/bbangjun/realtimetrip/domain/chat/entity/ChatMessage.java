@@ -21,22 +21,16 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatId;
 
-    // chat_room_id
-    // private String roomId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chatRoomId", referencedColumnName = "chatRoomId")
+    @JoinColumn(name = "chatRoomId", nullable = false)
     private ChatRoom chatRoom;
 
-    // user_id, nickname
-    // private Long userId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
 
-    // event_time
     private LocalDateTime eventTime;
 
-    // message
     private String message;
 
     @Enumerated(EnumType.STRING)

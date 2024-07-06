@@ -1,5 +1,7 @@
 package com.bbangjun.realtimetrip.domain.country.service;
 
+import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
+import com.bbangjun.realtimetrip.domain.chat.repository.ChatRoomRepository;
 import com.bbangjun.realtimetrip.domain.country.entity.Country;
 import com.bbangjun.realtimetrip.domain.country.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import java.util.List;
 @Slf4j
 public class CountryService {
     private final CountryRepository countryRepository;
+    private final ChatRoomRepository chatRoomRepository;
 
     public Boolean createChatRoom() {
         List<Country> countries = Arrays.asList(
@@ -32,8 +35,13 @@ public class CountryService {
         );
 
         for (Country country : countries) {
-            if (!countryRepository.existsById(country.getCountryCode()))
+            if (!countryRepository.existsById(country.getCountryCode())) {
                 countryRepository.save(country);
+
+                ChatRoom newChatRoom = ChatRoom.builder()
+                        .country(country).build();
+                chatRoomRepository.save(newChatRoom);
+            }
             else
                 return false;
         }

@@ -19,23 +19,24 @@ public class ChatRoom {
     @Id
     private String chatRoomId;
 
-    private String roomName;
-
-    private Long userCount;
-
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<ChatMessage> messages = new HashSet<>();
-
     @OneToOne
     @JoinColumn(name = "country_code")
     private Country country;
 
+    private Long userCount;
+
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ChatMessage> chatMessages;
+
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ChatRoomUser> chatRoomUsers;
+
     @Builder
-    public ChatRoom(String roomName){
+    public ChatRoom(Country country){
 
         // 방 번호는 고유한 random UUID 생성
         this.chatRoomId = UUID.randomUUID().toString();
-        this.roomName = roomName;
+        this.country = country;
         this.userCount = 0L;
     }
 }

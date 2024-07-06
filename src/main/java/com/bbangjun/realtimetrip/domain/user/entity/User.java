@@ -1,5 +1,6 @@
 package com.bbangjun.realtimetrip.domain.user.entity;
 
+import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoomUser;
 import com.bbangjun.realtimetrip.domain.verificationcode.entity.VerificationCode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 
 @Entity
@@ -30,6 +33,11 @@ public class User {
 
     private String profile;
 
+    // 현재 Entity가 PK, 연결되는 Entity에 선언한 현재 Entity 변수명을 mappedBy로 연결
+    //
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private VerificationCode verificationCode;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ChatRoomUser> chatRoomUser;
 }
