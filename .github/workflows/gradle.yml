@@ -65,7 +65,7 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_KEY }}
-
+        port: 22
         script: |
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
@@ -75,6 +75,9 @@ jobs:
           # application.yml과 .env 작성
           echo "${{ secrets.APPLICATION }}" > application.yml
           echo "${{ secrets.ENV }}" > .env
+          
+           # Docker Hub에 로그인
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
           
           # Docker Compose를 이용한 서비스 시작
           sudo docker-compose down
