@@ -21,14 +21,17 @@ public class ChatMessageDto implements Serializable {
         ENTER, TALK, LEAVE
     }
 
-    private Long id;
-    private MessageType messageType;
+    private Long chatId;
+    private String chatRoomId;
     private Long userId;
     private String nickName;
-    private String roomId;
     private String message;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime sendTime;
+    private LocalDateTime event_time;
+
+    private MessageType type;
+
 }

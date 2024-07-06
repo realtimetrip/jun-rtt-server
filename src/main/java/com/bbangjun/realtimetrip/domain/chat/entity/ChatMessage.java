@@ -19,28 +19,35 @@ public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Enumerated(EnumType.STRING)
-    private MessageType messageType;
-    private String message;
-    private LocalDateTime sendTime;
+    private Long chatId;
 
-    // private Long userId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_Id", referencedColumnName = "userId")
-    private User user;
-
+    // chat_room_id
     // private String roomId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "room_id", referencedColumnName = "roomId")
+    @JoinColumn(name = "chatRoomId", referencedColumnName = "chatRoomId")
     private ChatRoom chatRoom;
 
+    // user_id, nickname
+    // private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "userId")
+    private User user;
+
+    // event_time
+    private LocalDateTime eventTime;
+
+    // message
+    private String message;
+
+    @Enumerated(EnumType.STRING)
+    private MessageType type;
+
     @Builder
-    public ChatMessage(MessageType messageType, User user, ChatRoom chatRoom, String message, LocalDateTime sendTime){
-        this.messageType = messageType;
+    public ChatMessage(MessageType type, User user, ChatRoom chatRoom, String message, LocalDateTime eventTime){
+        this.type = type;
         this.user = user;
         this.chatRoom = chatRoom;
         this.message = message;
-        this.sendTime = sendTime;
+        this.eventTime = eventTime;
     }
 }

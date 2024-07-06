@@ -31,43 +31,43 @@ public class ChatService {
 
     @Transactional
     public void sendMessage(ChatMessageDto chatMessageDto) {
-        if (ChatMessageDto.MessageType.TALK.equals(chatMessageDto.getMessageType())) {
+        if (ChatMessageDto.MessageType.TALK.equals(chatMessageDto.getType())) {
 
             Optional<User> optionalUser = userRepository.findById(chatMessageDto.getUserId());
             User user = optionalUser.get();
 
-            ChatRoom chatRoom = chatRoomRepository.findByRoomId(chatMessageDto.getRoomId());
+            ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(chatMessageDto.getChatRoomId());
 
             //채팅 생성 및 저장
             ChatMessage newChatMessage = ChatMessage.builder()
-                    .messageType(ChatMessage.MessageType.TALK)
+                    .type(ChatMessage.MessageType.TALK)
                     .chatRoom(chatRoom)
                     .user(user)
                     .message(chatMessageDto.getMessage())
-                    .sendTime(LocalDateTime.now())
+                    .eventTime(LocalDateTime.now())
                     .build();
 
             chatMessageRepository.save(newChatMessage);
 
-            ChannelTopic topic = new ChannelTopic(chatMessageDto.getRoomId());
+            ChannelTopic topic = new ChannelTopic(chatMessageDto.getChatRoomId());
 
             // ChatMessageRequest에 유저정보, 현재시간 저장
-            chatMessageDto.setId(newChatMessage.getId());
+            chatMessageDto.setChatId(newChatMessage.getChatId());
             chatMessageDto.setNickName(user.getNickname());
             chatMessageDto.setUserId(user.getUserId());
-            chatMessageDto.setSendTime(LocalDateTime.now());
+            chatMessageDto.setEvent_time(LocalDateTime.now());
 
             redisPublisherService.publish(topic, chatMessageDto);
         }
     }
 
     public void enterUser(ChatMessageDto chatMessageDto) {
-        if (ChatMessageDto.MessageType.ENTER.equals(chatMessageDto.getMessageType())) {
+        if (ChatMessageDto.MessageType.ENTER.equals(chatMessageDto.getType())) {
 
-            ChannelTopic topic = new ChannelTopic(chatMessageDto.getRoomId());
+            ChannelTopic topic = new ChannelTopic(chatMessageDto.getChatRoomId());
             redisMessageListener.addMessageListener(redisSubscriberService, topic);
             chatMessageDto.setNickName(userRepository.findById(chatMessageDto.getUserId()).get().getNickname());
-            chatMessageDto.setSendTime(LocalDateTime.now());
+            chatMessageDto.setEvent_time(LocalDateTime.now());
             chatMessageDto.setMessage(chatMessageDto.getNickName() + "님이 입장하셨습니다.");
 
             // Websocket에 발행된 메시지를 redis로 발행한다(publish)

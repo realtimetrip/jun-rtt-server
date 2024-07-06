@@ -1,5 +1,6 @@
 package com.bbangjun.realtimetrip.domain.chat.entity;
 
+import com.bbangjun.realtimetrip.domain.country.entity.Country;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,23 +16,27 @@ import java.util.UUID;
 @Getter
 @Table(name = "chat_room")
 public class ChatRoom {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(unique = true)
-    private String roomId;
+    private String chatRoomId;
+
     private String roomName;
-    private Long count;
+
+    private Long userCount;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatMessage> messages = new HashSet<>();
+
+    @OneToOne
+    @JoinColumn(name = "country_code")
+    private Country country;
 
     @Builder
     public ChatRoom(String roomName){
 
         // 방 번호는 고유한 random UUID 생성
-        this.roomId = UUID.randomUUID().toString();
+        this.chatRoomId = UUID.randomUUID().toString();
         this.roomName = roomName;
-        this.count = 0L;
+        this.userCount = 0L;
     }
 }

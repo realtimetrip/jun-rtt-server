@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
+@Table(name = "verification_code")
 @NoArgsConstructor
 @AllArgsConstructor
 public class VerificationCode {

@@ -29,9 +29,4 @@ public class ChatController {
         chatService.enterUser(chatMessageDto);
     }
 
-    // API: 채팅방 목록 조회
-    @GetMapping("/chatroom")
-    public void getChatRoom(){
-
-    }
 }

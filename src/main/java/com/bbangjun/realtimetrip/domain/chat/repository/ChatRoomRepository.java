@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long>{
 
-    ChatRoom findByRoomId(String roomId);
+    ChatRoom findByChatRoomId(String chatRoomId);
 }
