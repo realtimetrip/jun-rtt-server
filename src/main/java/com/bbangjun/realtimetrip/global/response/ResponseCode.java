@@ -18,7 +18,10 @@ public enum ResponseCode {
     INCORRECT_VERIFICATIONCODE(1001, HttpStatus.NOT_FOUND, "인증번호가 틀렸거나 존재하지 않습니다."),
 
     // user
-    INCORRECT_LOGIN_INFO(2001, HttpStatus.NOT_FOUND, "이메일 혹은 비밀번호가 틀렸습니다.");
+    INCORRECT_LOGIN_INFO(2001, HttpStatus.NOT_FOUND, "이메일 혹은 비밀번호가 틀렸습니다."),
+
+    // country
+    COUNTRY_ALREADY_EXIST(3001, HttpStatus.INTERNAL_SERVER_ERROR, "이미 해당 나라(채팅방)가 존재합니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;

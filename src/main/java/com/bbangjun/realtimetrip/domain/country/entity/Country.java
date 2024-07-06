@@ -21,4 +21,10 @@ public class Country {
 
     @OneToOne(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private ChatRoom chatRoom;
+
+    public Country(String countryCode, String countryName, String continent) {
+        this.countryCode = countryCode;
+        this.countryName = countryName;
+        this.continent = continent;
+    }
 }

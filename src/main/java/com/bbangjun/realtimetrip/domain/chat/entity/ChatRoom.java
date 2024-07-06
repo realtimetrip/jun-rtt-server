@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.listener.ChannelTopic;
 
 import java.util.HashSet;
 import java.util.Set;
