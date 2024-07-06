@@ -8,6 +8,7 @@ build/
 ### Project Files ###
 *.properties
 application.yml
+.env
 
 ### STS ###
 .apt_generated

@@ -72,8 +72,9 @@ jobs:
           
           cd /home/ubuntu/realtimetrip
           
-          # application.yml 파일 작성
+          # application.yml과 .env 작성
           echo "${{ secrets.APPLICATION }}" > application.yml
+          echo "${{ secrets.ENV }}" > .env
           
           # Docker Compose를 이용한 서비스 시작
           sudo docker-compose down
