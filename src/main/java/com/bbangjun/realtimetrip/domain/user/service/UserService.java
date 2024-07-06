@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -53,5 +54,15 @@ public class UserService {
             return UserInfoResponseDto.toUserInfoResponseDto(user);
 
         return null;
+    }
+
+    public UserInfoResponseDto getProfile(Long userId){
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
+            return UserInfoResponseDto.toUserInfoResponseDto(user);
+        }
+        else
+            throw new RuntimeException("존재하지 않는 유저입니다.");
     }
 }

@@ -7,6 +7,7 @@ import com.bbangjun.realtimetrip.domain.user.service.UserService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
 import com.bbangjun.realtimetrip.global.response.ResponseException;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ public class UserController {
 
     // API: 회원가입
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "회원가입", description = "유저의 회원가입을 진행합니다.")
     public BaseResponse<Object> signUp(@ModelAttribute SignUpRequestDto signUpRequestDto) {
         try {
             return new BaseResponse<>(userService.signUp(signUpRequestDto));
@@ -38,6 +40,7 @@ public class UserController {
 
     // API: 로그인
     @PostMapping("/login")
+    @Operation(summary = "로그인", description = "유저의 로그인을 진행합니다.")
     public BaseResponse<Object> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
 
         try{
@@ -76,5 +79,17 @@ public class UserController {
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
+    }
+
+    // API: 유저 프로필 조회
+    @GetMapping("/get-profile/{userId}")
+    @Operation(summary = "유저 프로필 조회", description = "유저의 프로필을 반환합니다.")
+    public BaseResponse<Object> getProfile(@PathVariable("userId") Long userId) {
+        try{
+            UserInfoResponseDto userProfile = userService.getProfile(userId);
+            return new BaseResponse<>(userProfile);
+        }catch (Exception e){
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 }

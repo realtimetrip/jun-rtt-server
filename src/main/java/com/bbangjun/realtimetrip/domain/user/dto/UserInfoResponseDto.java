@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 public class UserInfoResponseDto {
     private Long userId;
     private String email;
-    private String password;
     private String nickname;
     private String profile;
 
@@ -19,7 +18,6 @@ public class UserInfoResponseDto {
         UserInfoResponseDto userInfoResponseDto = new UserInfoResponseDto();
 
         userInfoResponseDto.setEmail(user.getEmail());
-        userInfoResponseDto.setPassword(user.getPassword());
         userInfoResponseDto.setUserId(user.getUserId());
         userInfoResponseDto.setNickname(user.getNickname());
         userInfoResponseDto.setProfile(user.getProfile());
