@@ -61,6 +61,7 @@ public class ChatService {
         }
     }
 
+    @Transactional
     public ChatMessageDto enterUser(ChatMessageDto chatMessageDto) {
 
         if (!ChatMessageDto.MessageType.ENTER.equals(chatMessageDto.getType())) {
@@ -75,8 +76,15 @@ public class ChatService {
         chatMessageDto.setNickName(user.getNickname());
         chatMessageDto.setEventTime(LocalDateTime.now());
         chatMessageDto.setMessage(chatMessageDto.getNickName() + "님이 입장하셨습니다.");
+        log.info("f chatMessageDto = {}", chatMessageDto);
 
         ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(chatMessageDto.getChatRoomId());
+
+        // 새로운 chatId를 생성하기 위해 시퀀스를 증가
+        Long newChatId = chatRoom.getMessageSequence() + 1;
+        chatRoom.setMessageSequence(newChatId);
+
+        chatRoomRepository.save(chatRoom);
 
         ChatMessage chatMessage = ChatMessage.builder()
                 .type(ChatMessage.MessageType.ENTER)
@@ -84,6 +92,7 @@ public class ChatService {
                 .chatRoom(chatRoom)
                 .message(chatMessageDto.getMessage())
                 .eventTime(chatMessageDto.getEventTime())
+                .chatId(newChatId)
                 .build();
 
         chatMessageRepository.save(chatMessage);

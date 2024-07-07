@@ -20,7 +20,7 @@ public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatId;
+    private Long id;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
@@ -38,12 +38,15 @@ public class ChatMessage {
     @Enumerated(EnumType.STRING)
     private MessageType type;
 
+    private Long chatId; // 채팅방 내의 시퀀스 ID
+
     @Builder
-    public ChatMessage(MessageType type, User user, ChatRoom chatRoom, String message, LocalDateTime eventTime){
+    public ChatMessage(MessageType type, User user, ChatRoom chatRoom, String message, LocalDateTime eventTime, Long chatId){
         this.type = type;
         this.user = user;
         this.chatRoom = chatRoom;
         this.message = message;
         this.eventTime = eventTime;
+        this.chatId = chatId;
     }
 }

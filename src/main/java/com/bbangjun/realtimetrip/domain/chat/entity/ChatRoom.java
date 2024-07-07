@@ -34,6 +34,9 @@ public class ChatRoom {
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatRoomUser> chatRoomUsers;
 
+    @Version
+    private Long messageSequence; // 메시지 시퀀스 관리
+
     @Builder
     public ChatRoom(Country country){
 
@@ -41,5 +44,10 @@ public class ChatRoom {
         this.chatRoomId = UUID.randomUUID().toString();
         this.country = country;
         this.userCount = 0L;
+        this.messageSequence = 0L;  // 초기 시퀀스 값
+    }
+
+    public void setMessageSequence(Long messageSequence) {
+        this.messageSequence = messageSequence;
     }
 }
