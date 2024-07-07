@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class UserInfoResponseDto {
     private Long userId;
     private String email;
-    private String nickname;
+    private String nickName;
     private String profile;
 
     public static UserInfoResponseDto toUserInfoResponseDto(User user){
@@ -19,7 +19,7 @@ public class UserInfoResponseDto {
 
         userInfoResponseDto.setEmail(user.getEmail());
         userInfoResponseDto.setUserId(user.getUserId());
-        userInfoResponseDto.setNickname(user.getNickname());
+        userInfoResponseDto.setNickName(user.getNickname());
         userInfoResponseDto.setProfile(user.getProfile());
 
         return userInfoResponseDto;

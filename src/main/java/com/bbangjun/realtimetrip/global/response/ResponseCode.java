@@ -25,6 +25,7 @@ public enum ResponseCode {
 
     // chat
     NO_ENTER_TYPE(4001, HttpStatus.INTERNAL_SERVER_ERROR, "채팅 타입이 입장(ENTER)이 아닙니다."),
+    NO_TALK_TYPE(4002, HttpStatus.INTERNAL_SERVER_ERROR, "채팅 타입이 대화(TALK)이 아닙니다."),
 
     // chatRoom
     NO_CHATROOM_EXIST(5001, HttpStatus.NOT_FOUND, "채팅방이 존재하지 않습니다.");

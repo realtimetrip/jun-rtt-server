@@ -50,7 +50,7 @@ public class UserController {
                 Cookie emailCookie = new Cookie("email", userInfoResponseDto.getEmail());
 
                 // 쿠키가 ASCII 문자만을 허용하므로, 닉네임을 인코딩하여 쿠키에 저장
-                String encodedNickName = URLEncoder.encode(userInfoResponseDto.getNickname(), "UTF-8");
+                String encodedNickName = URLEncoder.encode(userInfoResponseDto.getNickName(), "UTF-8");
                 Cookie nickNameCookie = new Cookie("nickName", encodedNickName);
 
                 Cookie profileCookie = new Cookie("profile", userInfoResponseDto.getProfile());

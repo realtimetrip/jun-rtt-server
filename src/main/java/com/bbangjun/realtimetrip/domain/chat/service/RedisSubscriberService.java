@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.domain.chat.service;
 
-import com.bbangjun.realtimetrip.domain.chat.dto.ChatMessageDto;
+import com.bbangjun.realtimetrip.domain.chat.dto.EnterUserResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class RedisSubscriberService implements MessageListener {
             // redis에서 발행된 데이터를 받아 deserialize
             String publishMessage = (String) redisTemplate.getStringSerializer().deserialize(message.getBody());
             // ChatMessageDto 객체로 매핑
-            ChatMessageDto roomMessage = objectMapper.readValue(publishMessage, ChatMessageDto.class);
+            EnterUserResponseDto roomMessage = objectMapper.readValue(publishMessage, EnterUserResponseDto.class);
             // WebSocket 구독자에게 채팅 메세지 Send
             messagingTemplate.convertAndSend("/sub/chat/room/" + roomMessage.getChatRoomId(), roomMessage);
         } catch (Exception e){
