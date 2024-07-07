@@ -1,6 +1,7 @@
 package com.bbangjun.realtimetrip.domain.chat.entity;
 
 import com.bbangjun.realtimetrip.domain.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatId;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatRoomId", nullable = false)
     private ChatRoom chatRoom;

@@ -1,6 +1,7 @@
 package com.bbangjun.realtimetrip.domain.country.entity;
 
 import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class Country {
 
     private String continent;
 
+    @JsonBackReference
     @OneToOne(mappedBy = "country", cascade = CascadeType.ALL, orphanRemoval = true)
     private ChatRoom chatRoom;
 

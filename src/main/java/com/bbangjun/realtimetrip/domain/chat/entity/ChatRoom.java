@@ -1,6 +1,7 @@
 package com.bbangjun.realtimetrip.domain.chat.entity;
 
 import com.bbangjun.realtimetrip.domain.country.entity.Country;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,9 +26,11 @@ public class ChatRoom {
 
     private Long userCount;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatMessage> chatMessages;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChatRoomUser> chatRoomUsers;
 
