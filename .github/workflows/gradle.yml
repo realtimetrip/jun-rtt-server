@@ -74,7 +74,6 @@ jobs:
           
           # application.yml과 .env 작성
           echo "${{ secrets.APPLICATION }}" > application.yml
-          echo "${{ secrets.ENV }}" > .env
           
            # Docker Hub에 로그인
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
