@@ -55,23 +55,44 @@ public class ChatService {
             chatMessageDto.setChatId(newChatMessage.getChatId());
             chatMessageDto.setNickName(user.getNickname());
             chatMessageDto.setUserId(user.getUserId());
-            chatMessageDto.setEvent_time(LocalDateTime.now());
+            chatMessageDto.setEventTime(LocalDateTime.now());
 
             redisPublisherService.publish(topic, chatMessageDto);
         }
     }
 
-    public void enterUser(ChatMessageDto chatMessageDto) {
-        if (ChatMessageDto.MessageType.ENTER.equals(chatMessageDto.getType())) {
+    public ChatMessageDto enterUser(ChatMessageDto chatMessageDto) {
 
-            ChannelTopic topic = new ChannelTopic(chatMessageDto.getChatRoomId());
-            redisMessageListener.addMessageListener(redisSubscriberService, topic);
-            chatMessageDto.setNickName(userRepository.findById(chatMessageDto.getUserId()).get().getNickname());
-            chatMessageDto.setEvent_time(LocalDateTime.now());
-            chatMessageDto.setMessage(chatMessageDto.getNickName() + "님이 입장하셨습니다.");
-
-            // Websocket에 발행된 메시지를 redis로 발행한다(publish)
-            redisPublisherService.publish(topic, chatMessageDto);
+        if (!ChatMessageDto.MessageType.ENTER.equals(chatMessageDto.getType())) {
+            return null;
         }
+
+        ChannelTopic topic = new ChannelTopic(chatMessageDto.getChatRoomId());
+        redisMessageListener.addMessageListener(redisSubscriberService, topic);
+
+        User user = userRepository.findById(chatMessageDto.getUserId()).get();
+
+        chatMessageDto.setNickName(user.getNickname());
+        chatMessageDto.setEventTime(LocalDateTime.now());
+        chatMessageDto.setMessage(chatMessageDto.getNickName() + "님이 입장하셨습니다.");
+
+        ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(chatMessageDto.getChatRoomId());
+
+        ChatMessage chatMessage = ChatMessage.builder()
+                .type(ChatMessage.MessageType.ENTER)
+                .user(user)
+                .chatRoom(chatRoom)
+                .message(chatMessageDto.getMessage())
+                .eventTime(chatMessageDto.getEventTime())
+                .build();
+
+        chatMessageRepository.save(chatMessage);
+
+        chatMessageDto.setChatId(chatMessage.getChatId());
+
+        // Websocket에 발행된 메시지를 redis로 발행(publish)
+        redisPublisherService.publish(topic, chatMessageDto);
+
+        return chatMessageDto;
     }
 }

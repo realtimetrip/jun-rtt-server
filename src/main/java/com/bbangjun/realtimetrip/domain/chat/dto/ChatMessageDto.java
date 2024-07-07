@@ -30,7 +30,7 @@ public class ChatMessageDto implements Serializable {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime event_time;
+    private LocalDateTime eventTime;
 
     private MessageType type;
 

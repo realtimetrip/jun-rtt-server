@@ -23,8 +23,11 @@ public enum ResponseCode {
     // country
     COUNTRY_ALREADY_EXIST(3001, HttpStatus.INTERNAL_SERVER_ERROR, "이미 해당 나라(채팅방)가 존재합니다."),
 
+    // chat
+    NO_ENTER_TYPE(4001, HttpStatus.INTERNAL_SERVER_ERROR, "채팅 타입이 입장(ENTER)이 아닙니다."),
+
     // chatRoom
-    NO_CHATROOM_EXIST(4001, HttpStatus.NOT_FOUND, "채팅방이 존재하지 않습니다.");
+    NO_CHATROOM_EXIST(5001, HttpStatus.NOT_FOUND, "채팅방이 존재하지 않습니다.");
 
     private final Integer code;
     private final HttpStatus httpStatus;

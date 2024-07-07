@@ -2,6 +2,8 @@ package com.bbangjun.realtimetrip.domain.chat.controller;
 
 import com.bbangjun.realtimetrip.domain.chat.dto.ChatMessageDto;
 import com.bbangjun.realtimetrip.domain.chat.service.ChatService;
+import com.bbangjun.realtimetrip.global.response.BaseResponse;
+import com.bbangjun.realtimetrip.global.response.ResponseCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -25,8 +27,18 @@ public class ChatController {
     // API: 채팅방 입장
     // websocket "/pub/enter-user"로 들어오는 메시징을 처리
     @MessageMapping("/enter-user")
-    public void enterUser(ChatMessageDto chatMessageDto) {
-        chatService.enterUser(chatMessageDto);
+    public BaseResponse<Object> enterUser(ChatMessageDto chatMessageDto) {
+        try{
+            ChatMessageDto chatMessage = chatService.enterUser(chatMessageDto);
+            if(chatMessage != null){
+                return new BaseResponse<>(chatMessage);
+            }
+            else{
+                return new BaseResponse<>(ResponseCode.NO_ENTER_TYPE);
+            }
+        }catch(Exception e){
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
     }
 
 }
