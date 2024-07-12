@@ -1,8 +1,10 @@
-package com.bbangjun.realtimetrip.domain.chat.entity;
+package com.bbangjun.realtimetrip.domain.chatroomuser;
 
+import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
 import com.bbangjun.realtimetrip.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -23,4 +25,10 @@ public class ChatRoomUser {
     @ManyToOne
     @JoinColumn(name = "chat_room_id", nullable = false)
     private ChatRoom chatRoom;
+
+    @Builder
+    public ChatRoomUser(User user, ChatRoom chatRoom){
+        this.user = user;
+        this.chatRoom = chatRoom;
+    }
 }

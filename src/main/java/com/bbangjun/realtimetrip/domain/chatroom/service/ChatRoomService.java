@@ -1,8 +1,8 @@
-package com.bbangjun.realtimetrip.domain.chat.service;
+package com.bbangjun.realtimetrip.domain.chatroom.service;
 
 import com.bbangjun.realtimetrip.domain.chat.dto.GetChatRoomResponseDto;
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
-import com.bbangjun.realtimetrip.domain.chat.repository.ChatRoomRepository;
+import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
+import com.bbangjun.realtimetrip.domain.chatroom.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

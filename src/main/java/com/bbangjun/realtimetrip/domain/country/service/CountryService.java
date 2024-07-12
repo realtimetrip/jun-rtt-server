@@ -1,7 +1,7 @@
 package com.bbangjun.realtimetrip.domain.country.service;
 
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
-import com.bbangjun.realtimetrip.domain.chat.repository.ChatRoomRepository;
+import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
+import com.bbangjun.realtimetrip.domain.chatroom.repository.ChatRoomRepository;
 import com.bbangjun.realtimetrip.domain.country.entity.Country;
 import com.bbangjun.realtimetrip.domain.country.repository.CountryRepository;
 import lombok.RequiredArgsConstructor;

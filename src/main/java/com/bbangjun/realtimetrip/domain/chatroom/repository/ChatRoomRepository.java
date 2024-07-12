@@ -1,10 +1,8 @@
-package com.bbangjun.realtimetrip.domain.chat.repository;
+package com.bbangjun.realtimetrip.domain.chatroom.repository;
 
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
+import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long>{

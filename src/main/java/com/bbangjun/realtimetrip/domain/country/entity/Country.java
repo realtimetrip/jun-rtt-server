@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.domain.country.entity;
 
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
+import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.bbangjun.realtimetrip.domain.chat.dto;
+package com.bbangjun.realtimetrip.domain.chatroom.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

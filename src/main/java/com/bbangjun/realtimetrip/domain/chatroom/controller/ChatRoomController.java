@@ -1,10 +1,8 @@
-package com.bbangjun.realtimetrip.domain.chat.controller;
+package com.bbangjun.realtimetrip.domain.chatroom.controller;
 
-import com.amazonaws.Response;
 import com.bbangjun.realtimetrip.domain.chat.dto.GetChatRoomResponseDto;
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoom;
-import com.bbangjun.realtimetrip.domain.chat.repository.ChatRoomRepository;
-import com.bbangjun.realtimetrip.domain.chat.service.ChatRoomService;
+import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
+import com.bbangjun.realtimetrip.domain.chatroom.service.ChatRoomService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
 import io.swagger.v3.oas.annotations.Operation;

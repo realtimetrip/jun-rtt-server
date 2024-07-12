@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.domain.user.entity;
 
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatRoomUser;
+import com.bbangjun.realtimetrip.domain.chatroomuser.ChatRoomUser;
 import com.bbangjun.realtimetrip.domain.verificationcode.entity.VerificationCode;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -1,5 +1,7 @@
-package com.bbangjun.realtimetrip.domain.chat.entity;
+package com.bbangjun.realtimetrip.domain.chatroom.entity;
 
+import com.bbangjun.realtimetrip.domain.chat.entity.ChatMessage;
+import com.bbangjun.realtimetrip.domain.chatroomuser.ChatRoomUser;
 import com.bbangjun.realtimetrip.domain.country.entity.Country;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -7,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,7 +36,7 @@ public class ChatRoom {
     private Set<ChatRoomUser> chatRoomUsers;
 
     @Version
-    private Long messageSequence; // 메시지 시퀀스 관리
+    private Long lastChatId; // 메시지 시퀀스 관리
 
     @Builder
     public ChatRoom(Country country){
@@ -44,10 +45,14 @@ public class ChatRoom {
         this.chatRoomId = UUID.randomUUID().toString();
         this.country = country;
         this.userCount = 0L;
-        this.messageSequence = 0L;  // 초기 시퀀스 값
+        this.lastChatId = 0L;  // 초기 시퀀스 값
     }
 
-    public void setMessageSequence(Long messageSequence) {
-        this.messageSequence = messageSequence;
+    public void setLastChatId(Long lastChatId) {
+        this.lastChatId = lastChatId;
+    }
+
+    public void increaseUserCount(){
+        this.userCount++;
     }
 }
