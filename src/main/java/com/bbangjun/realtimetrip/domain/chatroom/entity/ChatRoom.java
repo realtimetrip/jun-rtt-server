@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.domain.chatroom.entity;
 
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatMessage;
+import com.bbangjun.realtimetrip.domain.chatmessage.entity.ChatMessage;
 import com.bbangjun.realtimetrip.domain.chatroomuser.ChatRoomUser;
 import com.bbangjun.realtimetrip.domain.country.entity.Country;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

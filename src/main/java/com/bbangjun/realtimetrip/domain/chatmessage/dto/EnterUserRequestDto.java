@@ -1,15 +1,13 @@
-package com.bbangjun.realtimetrip.domain.chat.dto;
+package com.bbangjun.realtimetrip.domain.chatmessage.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendMessageRequestDto {
+public class EnterUserRequestDto {
     public enum MessageType{
         ENTER, TALK, LEAVE
     }
@@ -17,5 +15,4 @@ public class SendMessageRequestDto {
     private String chatRoomId;
     private Long userId;
     private MessageType type;
-    private String message;
 }

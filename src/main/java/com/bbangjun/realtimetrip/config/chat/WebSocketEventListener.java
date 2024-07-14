@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.config.chat;
 
-import com.bbangjun.realtimetrip.domain.chat.service.ChatService;
+import com.bbangjun.realtimetrip.domain.chatmessage.service.ChatMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -14,7 +14,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Component
 public class WebSocketEventListener {
 
-    private final ChatService chatService;
+    private final ChatMessageService chatMessageService;
 
     @EventListener
     public void handleWebSocketConnectListener(SessionConnectEvent event) {

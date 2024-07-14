@@ -1,6 +1,6 @@
-package com.bbangjun.realtimetrip.domain.chat.service;
+package com.bbangjun.realtimetrip.config.chat;
 
-import com.bbangjun.realtimetrip.domain.chat.dto.EnterUserResponseDto;
+import com.bbangjun.realtimetrip.domain.chatmessage.dto.EnterUserResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

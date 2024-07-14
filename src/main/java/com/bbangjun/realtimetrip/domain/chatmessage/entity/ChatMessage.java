@@ -1,4 +1,4 @@
-package com.bbangjun.realtimetrip.domain.chat.entity;
+package com.bbangjun.realtimetrip.domain.chatmessage.entity;
 
 import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
 import com.bbangjun.realtimetrip.domain.user.entity.User;

@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.domain.chatroom.controller;
 
-import com.bbangjun.realtimetrip.domain.chat.dto.GetChatRoomResponseDto;
+import com.bbangjun.realtimetrip.domain.chatroom.dto.GetChatRoomResponseDto;
 import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
 import com.bbangjun.realtimetrip.domain.chatroom.service.ChatRoomService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
@@ -37,20 +37,5 @@ public class ChatRoomController {
         }
     }
 
-    // API: 채팅 내역 조회
-    @GetMapping("/get-room")
-    @Operation(summary = "채팅 내역 조회", description = "특정 채팅방의 채팅 내역을 조회합니다.")
-    public ChatRoom roomInfo(@RequestParam("roomId") String roomId) {
-
-        return chatRoomService.findByChatRoomId(roomId);
-    }
-
-    //    // 채팅방 생성
-//    @PostMapping("/make-room")
-//    @ResponseBody
-//    public ChatRoom createRoom(@RequestParam("roomName") String roomName) {
-//        ChatRoom newChatRoom = ChatRoom.builder()
-//                .roomName(roomName).build();
-//        return chatRoomRepository.save(newChatRoom);
-//    }
+    // API:
 }

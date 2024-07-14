@@ -1,6 +1,6 @@
 package com.bbangjun.realtimetrip.domain.chatroom.service;
 
-import com.bbangjun.realtimetrip.domain.chat.dto.GetChatRoomResponseDto;
+import com.bbangjun.realtimetrip.domain.chatroom.dto.GetChatRoomResponseDto;
 import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
 import com.bbangjun.realtimetrip.domain.chatroom.repository.ChatRoomRepository;
 import lombok.RequiredArgsConstructor;

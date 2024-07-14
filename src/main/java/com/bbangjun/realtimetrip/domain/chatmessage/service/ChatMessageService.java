@@ -1,12 +1,11 @@
-package com.bbangjun.realtimetrip.domain.chat.service;
+package com.bbangjun.realtimetrip.domain.chatmessage.service;
 
-import com.bbangjun.realtimetrip.domain.chat.dto.EnterUserResponseDto;
-import com.bbangjun.realtimetrip.domain.chat.dto.EnterUserRequestDto;
-import com.bbangjun.realtimetrip.domain.chat.dto.SendMessageRequestDto;
-import com.bbangjun.realtimetrip.domain.chat.dto.SendMessageResponseDto;
-import com.bbangjun.realtimetrip.domain.chat.entity.ChatMessage;
+import com.bbangjun.realtimetrip.config.chat.RedisPublisherService;
+import com.bbangjun.realtimetrip.config.chat.RedisSubscriberService;
+import com.bbangjun.realtimetrip.domain.chatmessage.dto.*;
+import com.bbangjun.realtimetrip.domain.chatmessage.entity.ChatMessage;
 import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
-import com.bbangjun.realtimetrip.domain.chat.repository.ChatMessageRepository;
+import com.bbangjun.realtimetrip.domain.chatmessage.repository.ChatMessageRepository;
 import com.bbangjun.realtimetrip.domain.chatroom.repository.ChatRoomRepository;
 import com.bbangjun.realtimetrip.domain.chatroomuser.ChatRoomUser;
 import com.bbangjun.realtimetrip.domain.chatroomuser.ChatRoomUserRepository;
@@ -20,11 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ChatService {
+public class ChatMessageService {
 
     private final UserRepository userRepository;
     private final ChatRoomRepository chatRoomRepository;
@@ -134,5 +136,20 @@ public class ChatService {
         // Websocket에 발행된 메시지를 redis로 발행(publish)
         redisPublisherService.publish(topic, enterUserResponseDto);
         return enterUserResponseDto;
+    }
+
+    public ChatMessagesResponseDto getChatMessages(String chatRoomId, Long size, Long chatId) {
+
+        List<ChatMessage> chatMessageList = chatMessageRepository.findTopMessagesByChatRoomIdAndChatId(chatRoomId, chatId, size.intValue());
+
+        ChatMessagesResponseDto chatMessagesResponseDto = new ChatMessagesResponseDto();
+        chatMessagesResponseDto.setChatRoomId(chatRoomId);
+        chatMessagesResponseDto.setCountryName(chatRoomRepository.findByChatRoomId(chatRoomId).getCountry().getCountryName());
+        // DTO로 변환
+        for(ChatMessage chatMessage : chatMessageList){
+            chatMessagesResponseDto.getChatMessages().add(ChatMessageDto.toChatMessageDto(chatMessage));
+        }
+
+        return chatMessagesResponseDto;
     }
 }

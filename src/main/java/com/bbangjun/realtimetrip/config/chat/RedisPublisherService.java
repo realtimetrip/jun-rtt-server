@@ -1,6 +1,5 @@
-package com.bbangjun.realtimetrip.domain.chat.service;
+package com.bbangjun.realtimetrip.config.chat;
 
-import com.bbangjun.realtimetrip.domain.chat.dto.EnterUserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
