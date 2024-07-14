@@ -4,9 +4,12 @@ import com.bbangjun.realtimetrip.domain.chatmessage.dto.ChatMessageDto;
 import com.bbangjun.realtimetrip.domain.chatmessage.dto.ChatMessagesResponseDto;
 import com.bbangjun.realtimetrip.domain.chatmessage.entity.ChatMessage;
 import com.bbangjun.realtimetrip.domain.chatmessage.repository.ChatMessageRepository;
-import com.bbangjun.realtimetrip.domain.chatroom.dto.GetChatRoomResponseDto;
+import com.bbangjun.realtimetrip.domain.chatroom.dto.ChatRoomResponseDto;
+import com.bbangjun.realtimetrip.domain.chatroom.dto.ChatRoomUsersResponseDto;
 import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
 import com.bbangjun.realtimetrip.domain.chatroom.repository.ChatRoomRepository;
+import com.bbangjun.realtimetrip.domain.chatroomuser.ChatRoomUser;
+import com.bbangjun.realtimetrip.domain.chatroomuser.ChatRoomUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,22 +24,23 @@ public class ChatRoomService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatRoomUserRepository chatRoomUserRepository;
 
-    public List<GetChatRoomResponseDto> getChatRoom() {
+    public List<ChatRoomResponseDto> getChatRoom() {
 
         List<ChatRoom> chatRoomList = chatRoomRepository.findAll();
-        List<GetChatRoomResponseDto> getChatRoomResponseDtoList = new ArrayList<>();
+        List<ChatRoomResponseDto> chatRoomResponseDtoList = new ArrayList<>();
 
         for(ChatRoom chatRoom : chatRoomList){
-            GetChatRoomResponseDto getChatRoomResponseDto = new GetChatRoomResponseDto();
-            getChatRoomResponseDto.setChatRoomId(chatRoom.getChatRoomId());
-            getChatRoomResponseDto.setCountryName(chatRoom.getCountry().getCountryName());
-            getChatRoomResponseDto.setUserCount(chatRoom.getUserCount());
+            ChatRoomResponseDto chatRoomResponseDto = new ChatRoomResponseDto();
+            chatRoomResponseDto.setChatRoomId(chatRoom.getChatRoomId());
+            chatRoomResponseDto.setCountryName(chatRoom.getCountry().getCountryName());
+            chatRoomResponseDto.setUserCount(chatRoom.getUserCount());
 
-            getChatRoomResponseDtoList.add(getChatRoomResponseDto);
+            chatRoomResponseDtoList.add(chatRoomResponseDto);
         }
 
-        return getChatRoomResponseDtoList;
+        return chatRoomResponseDtoList;
     }
 
     public ChatMessagesResponseDto getChatMessages(String chatRoomId, Long size, Long chatId) {
@@ -54,7 +58,16 @@ public class ChatRoomService {
         return chatMessagesResponseDto;
     }
 
-    public ChatRoom findByChatRoomId(String roomId) {
-        return chatRoomRepository.findByChatRoomId(roomId);
+    public List<ChatRoomUsersResponseDto> getChatRoomUsers(String chatRoomId) {
+
+        List<ChatRoomUser> chatRoomUserList = chatRoomUserRepository.findByChatRoomId(chatRoomId);
+
+        List<ChatRoomUsersResponseDto> chatRoomUsersResponseDtoList = new ArrayList<>();
+
+        for(ChatRoomUser chatRoomUser : chatRoomUserList){
+            chatRoomUsersResponseDtoList.add(ChatRoomUsersResponseDto.toChatRoomUserDto(chatRoomUser));
+        }
+
+        return chatRoomUsersResponseDtoList;
     }
 }

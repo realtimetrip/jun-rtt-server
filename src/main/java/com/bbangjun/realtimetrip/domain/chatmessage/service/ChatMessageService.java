@@ -93,8 +93,6 @@ public class ChatMessageService {
 
         User user = userRepository.findById(enterUserRequestDto.getUserId()).get();
 
-        log.info("enterUserRequestDto.getChatRoomId() = {}", enterUserRequestDto.getChatRoomId());
-
         ChatRoom chatRoom = chatRoomRepository.findByChatRoomId(enterUserRequestDto.getChatRoomId());
 
 

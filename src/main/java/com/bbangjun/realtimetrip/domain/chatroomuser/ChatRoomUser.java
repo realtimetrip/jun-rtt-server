@@ -28,6 +28,7 @@ public class ChatRoomUser {
 
     @Builder
     public ChatRoomUser(User user, ChatRoom chatRoom){
+        this.chatRoomUserId = user.getUserId();
         this.user = user;
         this.chatRoom = chatRoom;
     }

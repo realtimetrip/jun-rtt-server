@@ -1,8 +1,8 @@
 package com.bbangjun.realtimetrip.domain.chatroom.controller;
 
 import com.bbangjun.realtimetrip.domain.chatmessage.dto.ChatMessagesResponseDto;
-import com.bbangjun.realtimetrip.domain.chatroom.dto.GetChatRoomResponseDto;
-import com.bbangjun.realtimetrip.domain.chatroom.entity.ChatRoom;
+import com.bbangjun.realtimetrip.domain.chatroom.dto.ChatRoomResponseDto;
+import com.bbangjun.realtimetrip.domain.chatroom.dto.ChatRoomUsersResponseDto;
 import com.bbangjun.realtimetrip.domain.chatroom.service.ChatRoomService;
 import com.bbangjun.realtimetrip.global.response.BaseResponse;
 import com.bbangjun.realtimetrip.global.response.ResponseCode;
@@ -27,10 +27,10 @@ public class ChatRoomController {
     public BaseResponse<Object> getChatRoom() {
 
         try{
-            List<GetChatRoomResponseDto> getChatRoomResponseDtoList = chatRoomService.getChatRoom();
+            List<ChatRoomResponseDto> chatRoomResponseDtoList = chatRoomService.getChatRoom();
 
-            if(!getChatRoomResponseDtoList.isEmpty())
-                return new BaseResponse<>(getChatRoomResponseDtoList);
+            if(!chatRoomResponseDtoList.isEmpty())
+                return new BaseResponse<>(chatRoomResponseDtoList);
             else
                 return new BaseResponse<>(ResponseCode.NO_CHATROOM_EXIST);
         }catch (Exception e){
@@ -41,7 +41,7 @@ public class ChatRoomController {
     // API: 채팅 내역 조회
     @GetMapping("/{chatRoomId}/messages")
     @Operation(summary = "채팅 내역 조회", description = "특정 채팅방의 채팅 내역을 조회합니다.")
-    public BaseResponse<ChatMessagesResponseDto> roomInfo(@PathVariable("chatRoomId") String chatRoomId,
+    public BaseResponse<ChatMessagesResponseDto> getChatMessagesByChatRoomId(@PathVariable("chatRoomId") String chatRoomId,
                                                           @RequestParam("size") Long size, @RequestParam("chatId") Long chatId) {
 
         try{
@@ -58,5 +58,22 @@ public class ChatRoomController {
         }
     }
 
-    // API:
+    // API: 채팅방에 있는 유저 목록 조회
+    @GetMapping("/{chatRoomId}/users")
+    @Operation(summary = "채팅방에 있는 유저 목록 조회", description = "특정 채팅방에 있는 모든 유저의 목록의 조회합니다.")
+    public BaseResponse<List<ChatRoomUsersResponseDto>> getUsersByChatRoomId(@PathVariable("chatRoomId") String chatRoomId){
+
+        try{
+            List<ChatRoomUsersResponseDto> chatRoomUsersResponseDto = chatRoomService.getChatRoomUsers(chatRoomId);
+            if(chatRoomUsersResponseDto != null){
+                return new BaseResponse<>(chatRoomUsersResponseDto);
+            }
+            else{
+                return new BaseResponse<>(ResponseCode.NO_CHATROOM_EXIST);
+            }
+
+        }catch (Exception e){
+            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
 }

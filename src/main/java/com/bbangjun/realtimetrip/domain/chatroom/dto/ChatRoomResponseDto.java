@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetChatRoomResponseDto {
+public class ChatRoomResponseDto {
     private String chatRoomId;
     private String countryName;
     private Long userCount;

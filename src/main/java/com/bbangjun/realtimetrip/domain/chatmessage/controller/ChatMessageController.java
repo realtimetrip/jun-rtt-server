@@ -28,6 +28,7 @@ public class ChatMessageController {
     @MessageMapping("/send-message")
     public BaseResponse<Object> sendMessage(SendMessageRequestDto sendMessageRequestDto){
         try{
+            log.info("send message = {}", sendMessageRequestDto);
             SendMessageResponseDto sendMessageResponseDto = chatMessageService.sendMessage(sendMessageRequestDto);
             if(sendMessageResponseDto != null){
                 return new BaseResponse<>(sendMessageResponseDto);
@@ -45,6 +46,7 @@ public class ChatMessageController {
     @MessageMapping("/enter-user")
     public BaseResponse<Object> enterUser(EnterUserRequestDto enterUserRequestDto) {
         try{
+            log.info("enter user = {}", enterUserRequestDto);
             EnterUserResponseDto enterUserResponseDto = chatMessageService.enterUser(enterUserRequestDto);
             if(enterUserResponseDto != null){
                 return new BaseResponse<>(enterUserResponseDto);
@@ -53,6 +55,7 @@ public class ChatMessageController {
                 return new BaseResponse<>(ResponseCode.NO_ENTER_TYPE);
             }
         }catch(Exception e){
+            log.info("error = {}", e.getMessage());
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
