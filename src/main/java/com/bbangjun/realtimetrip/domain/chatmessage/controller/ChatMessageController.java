@@ -56,24 +56,4 @@ public class ChatMessageController {
             return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
-
-    // API: 채팅 내역 조회
-    @GetMapping("/chatroom/{chatRoomId}/messages")
-    @Operation(summary = "채팅 내역 조회", description = "특정 채팅방의 채팅 내역을 조회합니다.")
-    public BaseResponse<ChatMessagesResponseDto> roomInfo(@PathVariable("chatRoomId") String chatRoomId,
-                                               @RequestParam("size") Long size, @RequestParam("chatId") Long chatId) {
-
-        try{
-            ChatMessagesResponseDto chatMessagesResponseDto = chatMessageService.getChatMessages(chatRoomId, size, chatId);
-            if(chatMessagesResponseDto != null){
-                return new BaseResponse<>(chatMessagesResponseDto);
-            }
-            else{
-                return new BaseResponse<>(ResponseCode.NO_CHATROOM_EXIST);
-            }
-
-        }catch (Exception e){
-            return new BaseResponse<>(ResponseCode.INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-    }
 }

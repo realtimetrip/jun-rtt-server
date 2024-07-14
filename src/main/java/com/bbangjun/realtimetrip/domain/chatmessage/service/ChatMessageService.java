@@ -137,19 +137,4 @@ public class ChatMessageService {
         redisPublisherService.publish(topic, enterUserResponseDto);
         return enterUserResponseDto;
     }
-
-    public ChatMessagesResponseDto getChatMessages(String chatRoomId, Long size, Long chatId) {
-
-        List<ChatMessage> chatMessageList = chatMessageRepository.findTopMessagesByChatRoomIdAndChatId(chatRoomId, chatId, size.intValue());
-
-        ChatMessagesResponseDto chatMessagesResponseDto = new ChatMessagesResponseDto();
-        chatMessagesResponseDto.setChatRoomId(chatRoomId);
-        chatMessagesResponseDto.setCountryName(chatRoomRepository.findByChatRoomId(chatRoomId).getCountry().getCountryName());
-        // DTO로 변환
-        for(ChatMessage chatMessage : chatMessageList){
-            chatMessagesResponseDto.getChatMessages().add(ChatMessageDto.toChatMessageDto(chatMessage));
-        }
-
-        return chatMessagesResponseDto;
-    }
 }
